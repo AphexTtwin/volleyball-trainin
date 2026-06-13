@@ -3,2394 +3,600 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VolleyJump Pro - Elite Volleyball Training Program</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>VolleyForge - Volleyball Jump & Spike Training</title>
+    <meta name="description" content="A premium volleyball jump, spike, and performance training website with animated guidance, progress tracking, and VIP training mode.">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #1a73e8;
-            --primary-dark: #0d47a1;
-            --primary-light: #e8f0fe;
-            --secondary: #ff6b35;
-            --success: #34a853;
-            --warning: #fbbc04;
-            --danger: #ea4335;
-            --text-dark: #202124;
-            --text-light: #5f6368;
-            --bg: #ffffff;
-            --bg-light: #f8f9fa;
-            --border: #dadce0;
-            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-            --shadow-lg: 0 10px 40px rgba(0,0,0,0.16);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* ===== NAVIGATION ===== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-
-        .logo {
-            font-size: 26px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--primary);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .logo:hover {
-            transform: translateY(-2px);
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-menu a {
-            color: var(--text-dark);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            position: relative;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: var(--transition);
-        }
-
-        .nav-menu a:hover::after {
-            width: 100%;
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-dark);
-        }
-
-        /* ===== HERO SECTION ===== */
-        .hero {
-            margin-top: 70px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="30" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-            animation: slideInDown 0.8s ease;
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 20px;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 18px;
-            margin-bottom: 30px;
-            opacity: 0.95;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-top: 5px;
-        }
-
-        .cta-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-
-        /* ===== BUTTONS ===== */
-        .btn {
-            padding: 12px 28px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #e55a2b;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-outline:hover {
-            background: white;
-            color: var(--primary);
-        }
-
-        .btn-secondary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        /* ===== MAIN CONTAINER ===== */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* ===== SECTIONS ===== */
-        section {
-            padding: 60px 20px;
-        }
-
-        section h2 {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            margin-bottom: 15px;
-            color: var(--text-dark);
-        }
-
-        section .subtitle {
-            font-size: 16px;
-            color: var(--text-light);
-            margin-bottom: 40px;
-        }
-
-        /* ===== TRAINING PLAN ===== */
-        #training-plan {
-            background: var(--bg);
-        }
-
-        .day-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin-bottom: 40px;
-        }
-
-        .day-btn {
-            padding: 12px;
-            border: 2px solid var(--border);
-            background: var(--bg);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .day-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .day-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .workout-card {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 30px;
-            display: none;
-            animation: fadeInUp 0.5s ease;
-        }
-
-        .workout-card.active {
-            display: block;
-        }
-
-        .workout-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .workout-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--primary-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-        }
-
-        .workout-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        .workout-intensity {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 8px;
-        }
-
-        .intensity-high {
-            background: #ffebee;
-            color: var(--danger);
-        }
-
-        .intensity-medium {
-            background: #fff3e0;
-            color: var(--warning);
-        }
-
-        .intensity-low {
-            background: #e8f5e9;
-            color: var(--success);
-        }
-
-        .exercise-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-
-        /* ===== EXERCISE CARD ===== */
-        .exercise-card {
-            background: var(--bg-light);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .exercise-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary);
-        }
-
-        .exercise-demo {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, var(--primary-light), #f0f7ff);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .demo-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            opacity: 0.8;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .exercise-content {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .exercise-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 10px;
-        }
-
-        .exercise-details {
-            font-size: 13px;
-            color: var(--text-light);
-            flex-grow: 1;
-        }
-
-        .exercise-details strong {
-            display: block;
-            color: var(--text-dark);
-            margin-top: 10px;
-            margin-bottom: 5px;
-        }
-
-        .exercise-details li {
-            margin-left: 15px;
-            margin-bottom: 5px;
-        }
-
-        .exercise-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid var(--border);
-            margin-top: 15px;
-        }
-
-        .sets-reps {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 14px;
-        }
-
-        .view-demo-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .view-demo-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        /* ===== VIDEO MODAL ===== */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            animation: fadeIn 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--bg);
-            border-radius: 12px;
-            width: 100%;
-            max-width: 900px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            animation: slideInUp 0.3s ease;
-        }
-
-        .modal-header {
-            padding: 25px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background: var(--bg);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--text-light);
-            transition: var(--transition);
-        }
-
-        .modal-close:hover {
-            color: var(--text-dark);
-        }
-
-        .modal-body {
-            padding: 30px;
-        }
-
-        .video-container {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 25px;
-        }
-
-        .video-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1a73e8, #0d47a1);
-            color: white;
-            font-size: 60px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .exercise-instructions {
-            background: var(--primary-light);
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .exercise-instructions h4 {
-            color: var(--primary-dark);
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-
-        .exercise-instructions ol {
-            margin-left: 20px;
-            color: var(--text-dark);
-        }
-
-        .exercise-instructions li {
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
-
-        /* ===== PROGRESS TRACKER ===== */
-        #progress-section {
-            background: var(--bg);
-        }
-
-        .progress-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .progress-card {
-            background: var(--bg-light);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .progress-label {
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .input-group input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .input-group button {
-            padding: 10px 20px;
-            background: var(--success);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .input-group button:hover {
-            background: #2d8659;
-        }
-
-        .progress-display {
-            margin-top: 20px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .progress-display strong {
-            color: var(--text-dark);
-            font-size: 18px;
-        }
-
-        /* ===== TIPS & TECHNIQUE ===== */
-        #tips-section {
-            background: var(--bg-light);
-        }
-
-        .tips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .tip-card {
-            background: var(--bg);
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
-            transition: var(--transition);
-        }
-
-        .tip-card:hover {
-            transform: translateX(5px);
-            box-shadow: var(--shadow);
-        }
-
-        .tip-card h3 {
-            color: var(--text-dark);
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-
-        .tip-card p {
-            color: var(--text-light);
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .tip-icon {
-            font-size: 24px;
-            margin-bottom: 12px;
-        }
-
-        /* ===== CHECKLIST ===== */
-        #checklist-section {
-            background: var(--bg);
-        }
-
-        .checklist {
-            list-style: none;
-            display: grid;
-            gap: 12px;
-            margin-top: 30px;
-            max-width: 600px;
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background: var(--bg-light);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .checklist-item:hover {
-            border-color: var(--primary);
-            background: var(--primary-light);
-        }
-
-        .checklist-item input[type="checkbox"] {
-            width: 24px;
-            height: 24px;
-            margin-right: 15px;
-            cursor: pointer;
-            accent-color: var(--primary);
-        }
-
-        .checklist-item label {
-            flex: 1;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .checklist-item.completed label {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
-
-        .checklist-controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        /* ===== INJURY PREVENTION ===== */
-        #prevention-section {
-            background: var(--bg-light);
-        }
-
-        .prevention-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .prevention-item {
-            background: var(--bg);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            display: flex;
-            gap: 15px;
-        }
-
-        .prevention-icon {
-            font-size: 32px;
-            flex-shrink: 0;
-        }
-
-        .prevention-content h4 {
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            font-size: 15px;
-        }
-
-        .prevention-content p {
-            color: var(--text-light);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        /* ===== TESTIMONIALS ===== */
-        #testimonials {
-            background: var(--bg);
-            text-align: center;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-
-        .testimonial {
-            background: var(--bg-light);
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            text-align: left;
-        }
-
-        .stars {
-            color: var(--warning);
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .testimonial p {
-            color: var(--text-light);
-            margin-bottom: 20px;
-            font-style: italic;
-            line-height: 1.7;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .author-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .author-info {
-            text-align: left;
-        }
-
-        .author-name {
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 14px;
-        }
-
-        .author-role {
-            color: var(--text-light);
-            font-size: 12px;
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            background: var(--text-dark);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            text-align: left;
-            margin-bottom: 30px;
-        }
-
-        .footer-section h4 {
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 14px;
-            margin-bottom: 8px;
-            display: block;
-            transition: var(--transition);
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* ===== ANIMATIONS ===== */
-        @keyframes slideInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                right: 0;
-                flex-direction: column;
-                background: var(--bg);
-                padding: 20px;
-                border-bottom: 1px solid var(--border);
-                gap: 15px;
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .hero {
-                padding: 60px 20px;
-            }
-
-            .hero-stats {
-                gap: 20px;
-            }
-
-            .exercise-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .day-selector {
-                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            }
-
-            section {
-                padding: 40px 20px;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
+        :root{
+            --bg:#0b1020;
+            --bg2:#111935;
+            --panel:#131b33;
+            --panel2:#182244;
+            --text:#eef3ff;
+            --muted:#9cabd6;
+            --line:rgba(255,255,255,.10);
+            --accent:#8b5cf6;
+            --accent2:#22d3ee;
+            --accent3:#f59e0b;
+            --success:#22c55e;
+            --danger:#ef4444;
+            --shadow:0 18px 60px rgba(0,0,0,.35);
+            --radius:22px;
+            --radius2:16px;
+        }
+
+        *{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{
+            font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(139,92,246,.22), transparent 28%),
+                radial-gradient(circle at top right, rgba(34,211,238,.16), transparent 24%),
+                linear-gradient(180deg, #060913 0%, var(--bg) 100%);
+            color:var(--text);
+            min-height:100vh;
+        }
+
+        a{color:inherit;text-decoration:none}
+        button,input{font:inherit}
+        .wrap{max-width:1280px;margin:0 auto;padding:0 20px}
+
+        /* Top bar */
+        .topbar{
+            position:sticky;top:0;z-index:1000;
+            backdrop-filter:blur(18px);
+            background:rgba(6,9,19,.72);
+            border-bottom:1px solid var(--line);
+        }
+        .nav{
+            height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px
+        }
+        .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.3px}
+        .brand-mark{
+            width:42px;height:42px;border-radius:14px;
+            background:linear-gradient(135deg,var(--accent),var(--accent2));
+            display:grid;place-items:center;box-shadow:0 10px 30px rgba(139,92,246,.35)
+        }
+        .brand-mark svg{width:24px;height:24px;fill:white}
+        .brand span{font-size:1.1rem}
+        .navlinks{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+        .navlinks a{
+            padding:10px 14px;border-radius:999px;color:var(--muted);
+            transition:.22s ease;border:1px solid transparent
+        }
+        .navlinks a:hover{color:var(--text);background:rgba(255,255,255,.04);border-color:var(--line)}
+        .menuBtn{display:none;background:transparent;border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:12px}
+
+        /* Hero */
+        .hero{padding:40px 0 24px}
+        .hero-grid{
+            display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:stretch
+        }
+        .hero-card,.side-card{
+            background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+            border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+            overflow:hidden;position:relative
+        }
+        .hero-card{padding:32px}
+        .eyebrow{
+            display:inline-flex;align-items:center;gap:10px;
+            padding:8px 14px;border-radius:999px;
+            background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.26);
+            color:#d8ccff;font-weight:700;font-size:.86rem;margin-bottom:18px
+        }
+        .hero h1{font-size:clamp(2.2rem,4.8vw,4.5rem);line-height:1.02;margin-bottom:14px}
+        .hero p{color:var(--muted);font-size:1.04rem;line-height:1.8;max-width:62ch}
+        .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+        .btn{
+            border:none;border-radius:16px;padding:13px 18px;font-weight:800;cursor:pointer;
+            transition:.2s ease;display:inline-flex;align-items:center;gap:10px
+        }
+        .btn:hover{transform:translateY(-2px)}
+        .btn-primary{background:linear-gradient(135deg,var(--accent),#6d28d9);color:white;box-shadow:0 18px 35px rgba(139,92,246,.28)}
+        .btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text)}
+        .statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+        .stat{
+            background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:18px;padding:16px
+        }
+        .stat strong{display:block;font-size:1.35rem}
+        .stat span{color:var(--muted);font-size:.9rem}
+
+        .hero-visual{display:grid;grid-template-rows:auto 1fr;min-height:100%}
+        .court-preview{
+            padding:18px;background:
+                linear-gradient(180deg, rgba(34,211,238,.10), rgba(139,92,246,.08)),
+                radial-gradient(circle at 50% 20%, rgba(255,255,255,.08), transparent 35%),
+                linear-gradient(180deg, #17304c 0%, #10243d 100%);
+            border-bottom:1px solid var(--line);position:relative;min-height:240px;overflow:hidden
+        }
+        .court-lines{
+            position:absolute;inset:18px;border:2px solid rgba(255,255,255,.18);border-radius:18px
+        }
+        .court-lines:before,.court-lines:after{
+            content:"";position:absolute;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.18)
+        }
+        .court-lines:before{top:0;bottom:0;width:2px}
+        .court-lines:after{top:50%;height:2px;width:100%}
+        .player{
+            position:absolute;left:20%;bottom:18%;width:88px;height:88px;border-radius:50%;
+            background:radial-gradient(circle at 30% 30%, #ffffff, #c7d2fe 55%, #8b5cf6 100%);
+            box-shadow:0 0 40px rgba(34,211,238,.25);
+            animation: jumpPulse 2.6s ease-in-out infinite
+        }
+        .player:before{
+            content:"";position:absolute;left:31px;top:10px;width:26px;height:42px;border-radius:999px 999px 12px 12px;background:rgba(15,23,42,.92)
+        }
+        .player:after{
+            content:"";position:absolute;left:6px;top:40px;width:76px;height:18px;border-radius:999px;background:rgba(255,255,255,.14)
+        }
+        .ball{
+            position:absolute;right:18%;bottom:42%;width:32px;height:32px;border-radius:50%;
+            background:radial-gradient(circle at 30% 30%, #fff, #f59e0b 65%, #c2410c 100%);
+            animation: ballArc 2.6s ease-in-out infinite
+        }
+        .arrow{
+            position:absolute;right:28%;bottom:36%;font-size:2.1rem;color:#86efac;animation: floaty 2.6s ease-in-out infinite
+        }
+        .side-card{padding:22px}
+        .mini-title{font-weight:800;font-size:1.05rem;margin-bottom:10px}
+        .mini-copy{color:var(--muted);line-height:1.7;font-size:.95rem}
+        .vip-banner{
+            margin-top:14px;padding:14px 16px;border-radius:16px;
+            background:linear-gradient(135deg, rgba(245,158,11,.18), rgba(139,92,246,.14));
+            border:1px solid rgba(245,158,11,.22)
+        }
+
+        /* Sections */
+        .section{padding:24px 0 10px}
+        .panel{
+            background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+            border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px
+        }
+        .section h2{font-size:2rem;margin-bottom:8px}
+        .section p.lead{color:var(--muted);margin-bottom:18px;line-height:1.8}
+
+        /* Training tabs */
+        .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 20px}
+        .tab{
+            border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);
+            padding:10px 14px;border-radius:999px;cursor:pointer;font-weight:700;transition:.2s ease
+        }
+        .tab.active,.tab:hover{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;border-color:transparent}
+        .day{display:none;animation:fadeUp .35s ease}
+        .day.active{display:block}
+
+        .day-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+        .tag{padding:8px 12px;border-radius:999px;font-size:.8rem;font-weight:800}
+        .high{background:rgba(239,68,68,.15);color:#fecaca;border:1px solid rgba(239,68,68,.22)}
+        .medium{background:rgba(245,158,11,.16);color:#fde68a;border:1px solid rgba(245,158,11,.2)}
+        .low{background:rgba(34,197,94,.14);color:#bbf7d0;border:1px solid rgba(34,197,94,.2)}
+
+        .exercise-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+        .exercise{
+            background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+            border:1px solid var(--line);border-radius:20px;overflow:hidden
+        }
+        .exercise-top{
+            position:relative;min-height:160px;padding:18px;background:radial-gradient(circle at 50% 20%, rgba(255,255,255,.12), transparent 30%), linear-gradient(135deg, rgba(139,92,246,.14), rgba(34,211,238,.08));
+        }
+        .demo-stage{
+            height:160px;border-radius:16px;background:rgba(0,0,0,.18);border:1px dashed rgba(255,255,255,.16);position:relative;overflow:hidden
+        }
+        .move-dot{
+            position:absolute;left:14px;bottom:24px;width:20px;height:20px;border-radius:50%;background:#fff;
+            box-shadow:0 0 18px rgba(255,255,255,.5);animation:moveArc 2.8s linear infinite
+        }
+        .motion-line{position:absolute;left:12px;bottom:20px;right:20%;height:2px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);transform-origin:left center;opacity:.55}
+        .jump-figure{
+            position:absolute;left:18%;bottom:14px;width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,#e0e7ff,#8b5cf6);animation:jumpFigure 2.8s ease-in-out infinite
+        }
+        .jump-figure:before{content:"";position:absolute;left:20px;top:8px;width:18px;height:18px;border-radius:50%;background:#fff}
+        .jump-figure:after{content:"";position:absolute;left:11px;top:28px;width:36px;height:18px;border-radius:999px;background:rgba(255,255,255,.86)}
+        .exercise-body{padding:16px 16px 18px}
+        .exercise h3{font-size:1.12rem;margin-bottom:6px}
+        .exercise .desc{color:var(--muted);font-size:.95rem;line-height:1.65;margin-bottom:12px}
+        .meta{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+        .reps{font-weight:800;color:#dbeafe}
+        .outlineBtn{
+            background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text);
+            padding:10px 12px;border-radius:14px;cursor:pointer
+        }
+        .outlineBtn:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.08)}
+
+        /* VIP */
+        .vip-lock{
+            border:1px solid rgba(245,158,11,.25);
+            background:linear-gradient(180deg, rgba(245,158,11,.08), rgba(139,92,246,.05));
+            border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-top:18px
+        }
+        .vip-grid{display:none;margin-top:18px}
+        .vip-grid.active{display:grid}
+        .vip-header{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+        .vip-badge{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.18);color:#fde68a;font-weight:800}
+        .vip-inputs{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+        .vip-inputs input{
+            flex:1;min-width:220px;padding:14px 16px;border-radius:16px;border:1px solid var(--line);
+            background:rgba(255,255,255,.05);color:var(--text)
+        }
+
+        /* Progress */
+        .progress-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+        .field{padding:16px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03)}
+        .field label{display:block;font-weight:800;margin-bottom:10px}
+        .field input{width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text)}
+        .saved{margin-top:10px;color:#dbeafe;font-size:.95rem}
+
+        /* Tips */
+        .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+        .tip{
+            padding:18px;border-radius:18px;border:1px solid var(--line);
+            background:rgba(255,255,255,.03)
+        }
+        .tip h3{margin-bottom:8px}
+        .tip p{color:var(--muted);line-height:1.75;font-size:.95rem}
+
+        /* Checklist */
+        .checklist{display:grid;gap:10px}
+        .check{
+            display:flex;gap:12px;align-items:flex-start;padding:14px 15px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.03)
+        }
+        .check input{margin-top:4px;width:20px;height:20px;accent-color:var(--accent2)}
+        .check.done{opacity:.72}
+        .check.done span{text-decoration:line-through}
+
+        /* Footer */
+        footer{padding:34px 0 44px;color:var(--muted)}
+        .footer-card{padding:18px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03)}
+
+        /* Modal */
+        .modal{display:none;position:fixed;inset:0;background:rgba(4,7,15,.76);backdrop-filter:blur(12px);z-index:2000;padding:18px}
+        .modal.show{display:grid;place-items:center}
+        .modal-box{width:min(920px,100%);max-height:90vh;overflow:auto;background:#0f1731;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+        .modal-head{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+        .modal-body{padding:20px}
+        .close{background:transparent;border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer}
+
+        .readme{white-space:normal;line-height:1.7;color:var(--muted)}
+
+        /* Animations */
+        @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+        @keyframes jumpPulse{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-18px) scale(1.03)}}
+        @keyframes ballArc{0%{transform:translate(0,0) scale(.95)}50%{transform:translate(-220px,-100px) scale(1.08)}100%{transform:translate(0,0) scale(.95)}}
+        @keyframes moveArc{0%{transform:translate(0,0)}50%{transform:translate(250px,-72px)}100%{transform:translate(0,0)}}
+        @keyframes jumpFigure{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+        @media (max-width: 960px){
+            .hero-grid,.exercise-grid,.tips-grid,.progress-grid{grid-template-columns:1fr}
+            .navlinks{display:none;position:absolute;top:76px;left:20px;right:20px;background:#0c1226;border:1px solid var(--line);border-radius:18px;padding:12px}
+            .navlinks.show{display:flex;flex-direction:column;align-items:stretch}
+            .menuBtn{display:inline-flex}
+            .statrow{grid-template-columns:1fr}
         }
     </style>
 </head>
 <body>
-
-    <!-- ===== NAVIGATION ===== -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <i class="fas fa-volleyball-ball"></i> VolleyJump Pro
+    <div class="topbar">
+        <div class="wrap nav">
+            <a class="brand" href="#home">
+                <div class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm3.9 7.2-4.1 7.1a1.2 1.2 0 0 1-2.2-.1l-1.8-3.6a1 1 0 1 1 1.8-.9l1 2 3.3-5.7a1 1 0 1 1 1.8 1.2Z"/></svg>
+                </div>
+                <span>VolleyForge</span>
             </a>
-            <button class="menu-toggle" onclick="toggleMenu()">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="nav-menu" id="navMenu">
-                <li><a onclick="scrollToSection('training-plan')">Training</a></li>
-                <li><a onclick="scrollToSection('tips-section')">Technique</a></li>
-                <li><a onclick="scrollToSection('progress-section')">Progress</a></li>
-                <li><a onclick="scrollToSection('prevention-section')">Prevention</a></li>
-                <li><a onclick="scrollToSection('testimonials')">Success Stories</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- ===== HERO SECTION ===== -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>🏐 Unlock Your Vertical Jump</h1>
-            <p>Master elite volleyball spike techniques with our science-backed training program designed for intermediate beginners. Increase your reach, power, and game performance in just 7 weeks.</p>
-            
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number">+8"</span>
-                    <span class="stat-label">Vertical Jump Increase</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">5K+</span>
-                    <span class="stat-label">Athletes Trained</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">92%</span>
-                    <span class="stat-label">Success Rate</span>
-                </div>
-            </div>
-
-            <div class="cta-group">
-                <button class="btn btn-primary" onclick="scrollToSection('training-plan')">
-                    <i class="fas fa-play-circle"></i> Start Training
-                </button>
-                <button class="btn btn-outline" onclick="alert('🎥 Demo videos coming soon! Check back for exclusive training footage.')">
-                    <i class="fas fa-video"></i> Watch Demo
-                </button>
+            <button class="menuBtn" onclick="toggleMenu()">☰</button>
+            <div class="navlinks" id="navlinks">
+                <a href="#plan">Plan</a>
+                <a href="#vip">VIP</a>
+                <a href="#tips">Tips</a>
+                <a href="#progress">Progress</a>
+                <a href="#checklist">Checklist</a>
+                <a href="#readme">README</a>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- ===== TRAINING PLAN ===== -->
-    <section id="training-plan" class="container">
-        <h2>📅 7-Day Elite Training Plan</h2>
-        <p class="subtitle">Progressive workouts designed to build explosive power and perfect spike mechanics</p>
+    <main id="home" class="hero wrap">
+        <div class="hero-grid">
+            <section class="hero-card">
+                <div class="eyebrow">🏆 Premium Volleyball Performance Lab</div>
+                <h1>Train smarter. Jump higher. Spike harder.</h1>
+                <p>
+                    Welcome to a unique, premium volleyball training experience built around your PDF plan,
+                    now transformed into a polished, animated, on-click training website with regular and VIP modes.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="document.getElementById('plan').scrollIntoView({behavior:'smooth'})">Start Training</button>
+                    <button class="btn btn-ghost" onclick="document.getElementById('vip').scrollIntoView({behavior:'smooth'})">Open VIP Plan</button>
+                </div>
+                <div class="statrow">
+                    <div class="stat"><strong>7-Day</strong><span>Core plan</span></div>
+                    <div class="stat"><strong>VIP</strong><span>Locked mode</span></div>
+                    <div class="stat"><strong>Animated</strong><span>Visual guidance</span></div>
+                </div>
+            </section>
 
-        <div class="day-selector">
-            <button class="day-btn active" onclick="showDay(0, event)">Monday</button>
-            <button class="day-btn" onclick="showDay(1, event)">Tuesday</button>
-            <button class="day-btn" onclick="showDay(2, event)">Wednesday</button>
-            <button class="day-btn" onclick="showDay(3, event)">Thursday</button>
-            <button class="day-btn" onclick="showDay(4, event)">Friday</button>
-            <button class="day-btn" onclick="showDay(5, event)">Saturday</button>
-            <button class="day-btn" onclick="showDay(6, event)">Sunday</button>
+            <aside class="hero-visual side-card">
+                <div class="court-preview" aria-label="Animated volleyball court preview">
+                    <div class="court-lines"></div>
+                    <div class="player"></div>
+                    <div class="ball"></div>
+                    <div class="arrow">↗</div>
+                </div>
+                <div class="side-card">
+                    <div class="mini-title">How this site works</div>
+                    <div class="mini-copy">Click each training day, open exercise demos, track your progress, and unlock the VIP plan with the password you set.</div>
+                    <div class="vip-banner">VIP password gate is enabled for your personal plan.</div>
+                </div>
+            </aside>
         </div>
+    </main>
 
-        <!-- DAY 1 -->
-        <div class="workout-card active" data-day="0">
-            <div class="workout-header">
-                <div class="workout-icon">💪</div>
-                <div>
-                    <div class="workout-title">Jump Technique & Arm Swing</div>
-                    <span class="workout-intensity intensity-medium">MEDIUM INTENSITY</span>
-                </div>
-            </div>
-
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🦘</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Approach Jumps</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Master the 3-step approach
-                            <ul>
-                                <li>Explosive power</li>
-                                <li>Arm swing coordination</li>
-                                <li>Body alignment</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">5 × 5 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Approach Jumps')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🎯</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Wall Spike Mechanics</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Spike technique against resistance
-                            <ul>
-                                <li>Contact height</li>
-                                <li>Wrist snap</li>
-                                <li>Follow-through</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">4 × 15 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Wall Spike')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🏋️</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Bodyweight Squats</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Lower body strength foundation
-                            <ul>
-                                <li>Knee alignment</li>
-                                <li>Hip extension</li>
-                                <li>Core stability</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">3 × 15 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Squats')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- DAY 2 -->
-        <div class="workout-card" data-day="1">
-            <div class="workout-header">
-                <div class="workout-icon">⚡</div>
-                <div>
-                    <div class="workout-title">Explosive Power</div>
-                    <span class="workout-intensity intensity-high">HIGH INTENSITY</span>
-                </div>
-            </div>
-
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">📦</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Box Jumps</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Max height vertical explosiveness
-                            <ul>
-                                <li>Reactive power</li>
-                                <li>Quick takeoff</li>
-                                <li>Height achievement</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">5 × 4 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Box Jumps')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🎪</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Bulgarian Split Squats</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Unilateral leg strength
-                            <ul>
-                                <li>Single-leg power</li>
-                                <li>Balance</li>
-                                <li>Hip stability</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">3 × 10/leg</span>
-                            <button class="view-demo-btn" onclick="openDemo('Split Squats')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🫀</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Side Planks</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Lateral core stability
-                            <ul>
-                                <li>Oblique strength</li>
-                                <li>Anti-rotation</li>
-                                <li>Spinal stability</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">3 × 30 sec</span>
-                            <button class="view-demo-btn" onclick="openDemo('Side Plank')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- DAY 3 -->
-        <div class="workout-card" data-day="2">
-            <div class="workout-header">
-                <div class="workout-icon">⏱️</div>
-                <div>
-                    <div class="workout-title">Timing & Coordination</div>
-                    <span class="workout-intensity intensity-medium">MEDIUM INTENSITY</span>
-                </div>
-            </div>
-
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🚧</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Block Jumps</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Defensive jump timing
-                            <ul>
-                                <li>Vertical reach</li>
-                                <li>Quick reaction</li>
-                                <li>Net awareness</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">5 × 6 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Block Jumps')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🤝</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Spike Timing with Toss</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Game-realistic spike coordination
-                            <ul>
-                                <li>Ball tracking</li>
-                                <li>Arm timing</li>
-                                <li>Power transfer</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">5 × 8 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Spike Timing')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🦵</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Walking Lunges</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Dynamic leg strength & balance
-                            <ul>
-                                <li>Quad strength</li>
-                                <li>Hip flexibility</li>
-                                <li>Proprioception</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">3 × 12/leg</span>
-                            <button class="view-demo-btn" onclick="openDemo('Lunges')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- DAY 4 (RECOVERY) -->
-        <div class="workout-card" data-day="3">
-            <div class="workout-header">
-                <div class="workout-icon">🧘</div>
-                <div>
-                    <div class="workout-title">Recovery & Mobility</div>
-                    <span class="workout-intensity intensity-low">LOW INTENSITY</span>
-                </div>
-            </div>
-
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🌊</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Mobility Flow</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Joint mobility & flexibility
-                            <ul>
-                                <li>Hip circles</li>
-                                <li>Shoulder mobility</li>
-                                <li>Spine rotation</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">20-30 min</span>
-                            <button class="view-demo-btn" onclick="openDemo('Mobility')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">⚖️</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Balance Training</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Proprioceptive development
-                            <ul>
-                                <li>Single-leg stance</li>
-                                <li>Core engagement</li>
-                                <li>Ankle stability</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">3 × 60 sec</span>
-                            <button class="view-demo-btn" onclick="openDemo('Balance')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🛞</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Foam Rolling</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Myofascial release & recovery
-                            <ul>
-                                <li>Muscle tension relief</li>
-                                <li>Blood flow increase</li>
-                                <li>Soreness reduction</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">15-20 min</span>
-                            <button class="view-demo-btn" onclick="openDemo('Foam Rolling')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- DAY 5 -->
-        <div class="workout-card" data-day="4">
-            <div class="workout-header">
-                <div class="workout-icon">🚀</div>
-                <div>
-                    <div class="workout-title">Reactive Jump Training</div>
-                    <span class="workout-intensity intensity-high">HIGH INTENSITY</span>
-                </div>
-            </div>
-
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">📉</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Depth Jumps</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Reactive strength index training
-                            <ul>
-                                <li>Stretch-shortening cycle</li>
-                                <li>Neural adaptation</li>
-                                <li>Amortization phase</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">4 × 5 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Depth Jumps')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">⚔️</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Cross-Court Spike Practice</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Directional spike placement
-                            <ul>
-                                <li>Angle control</li>
-                                <li>Court awareness</li>
-                                <li>Offensive variety</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">5 × 10 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Cross-Court')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🪨</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Hollow Hold</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Total body tension & core
-                            <ul>
-                                <li>Body alignment</li>
-                                <li>Midline stability</li>
-                                <li>Anti-extension</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">3 × 30 sec</span>
-                            <button class="view-demo-btn" onclick="openDemo('Hollow Hold')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- DAY 6 -->
-        <div class="workout-card" data-day="5">
-            <div class="workout-header">
-                <div class="workout-icon">🏐</div>
-                <div>
-                    <div class="workout-title">High-Intensity Volleyball Day</div>
-                    <span class="workout-intensity intensity-high">HIGH INTENSITY</span>
-                </div>
-            </div>
-
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🎯</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Max Approach Jumps</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Maximum height jumps
-                            <ul>
-                                <li>Peak power output</li>
-                                <li>Technique under fatigue</li>
-                                <li>Mental preparation</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">6 × 4 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Max Approach')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">👥</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Live Hitting with Setter</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Game-realistic scenarios
-                            <ul>
-                                <li>Live ball timing</li>
-                                <li>Court positioning</li>
-                                <li>Decision making</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">6 × 8 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Live Hitting')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🛸</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Broad Jumps</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Horizontal explosiveness
-                            <ul>
-                                <li>Power endurance</li>
-                                <li>Hip extension</li>
-                                <li>Forward momentum</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">4 × 5 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Broad Jumps')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- DAY 7 -->
-        <div class="workout-card" data-day="6">
-            <div class="workout-header">
-                <div class="workout-icon">🎓</div>
-                <div>
-                    <div class="workout-title">Technique Refinement</div>
-                    <span class="workout-intensity intensity-low">LOW INTENSITY</span>
-                </div>
-            </div>
-
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🕐</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Controlled Approach Jumps</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Perfect form practice
-                            <ul>
-                                <li>Movement quality</li>
-                                <li>Foot positioning</li>
-                                <li>Arm mechanics</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">4 × 5 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Controlled Jumps')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🎪</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Target Spiking Accuracy</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Precision spike placement
-                            <ul>
-                                <li>Zone targeting</li>
-                                <li>Consistency</li>
-                                <li>Touch control</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">5 × 10 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Target Spikes')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="exercise-card">
-                    <div class="exercise-demo">
-                        <div class="demo-placeholder">🦖</div>
-                    </div>
-                    <div class="exercise-content">
-                        <div class="exercise-name">Glute Bridges</div>
-                        <div class="exercise-details">
-                            <strong>Focus:</strong> Hip extension strength
-                            <ul>
-                                <li>Glute activation</li>
-                                <li>Hip stability</li>
-                                <li>Lower back health</li>
-                            </ul>
-                        </div>
-                        <div class="exercise-footer">
-                            <span class="sets-reps">3 × 15 reps</span>
-                            <button class="view-demo-btn" onclick="openDemo('Glute Bridges')">
-                                <i class="fas fa-play"></i> View
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section id="plan" class="section wrap">
+        <div class="panel">
+            <h2>7-Day Training Plan</h2>
+            <p class="lead">Your regular program is presented in a clean, premium layout with visual exercise cards and animated movement cues.</p>
+            <div class="tabs" id="tabs"></div>
+            <div id="days"></div>
         </div>
     </section>
 
-    <!-- ===== TECHNIQUE TIPS ===== -->
-    <section id="tips-section">
-        <div class="container">
-            <h2>💡 Technique Mastery Tips</h2>
-            <p class="subtitle">Essential mechanics to perfect your jump and spike performance</p>
+    <section id="vip" class="section wrap">
+        <div class="vip-lock">
+            <div class="vip-header">
+                <div>
+                    <h2>VIP Personal Training Plan</h2>
+                    <p class="lead" style="margin-bottom:0">Locked content for your private training sequence.</p>
+                </div>
+                <div class="vip-badge">🔒 VIP Password Required</div>
+            </div>
+            <div class="vip-inputs">
+                <input id="vipPassword" type="password" placeholder="Enter VIP password" />
+                <button class="btn btn-primary" onclick="unlockVIP()">Unlock VIP Plan</button>
+            </div>
+            <div id="vipMessage" style="margin-top:12px;color:#fde68a;font-weight:700"></div>
+            <div id="vipGrid" class="vip-grid"></div>
+        </div>
+    </section>
 
+    <section id="tips" class="section wrap">
+        <div class="panel">
+            <h2>Technique Tips</h2>
+            <p class="lead">Designed to feel like a premium athlete training product, not a generic template.</p>
             <div class="tips-grid">
-                <div class="tip-card">
-                    <div class="tip-icon">⚡</div>
-                    <h3>The Approach</h3>
-                    <p>Master the 3-step approach with a fast but controlled last two steps. Keep your shoulders back and ready to swing. Focus on horizontal momentum converting to vertical.</p>
-                </div>
-
-                <div class="tip-card">
-                    <div class="tip-icon">💪</div>
-                    <h3>Arm Swing</h3>
-                    <p>Swing both arms aggressively upward during takeoff. This countermovement generates momentum and helps convert horizontal to vertical motion for maximum height.</p>
-                </div>
-
-                <div class="tip-card">
-                    <div class="tip-icon">⬆️</div>
-                    <h3>Vertical Takeoff</h3>
-                    <p>Jump straight up rather than drifting forward. Engage your core tightly throughout. Push through the balls of your feet and fully extend your ankles, knees, and hips.</p>
-                </div>
-
-                <div class="tip-card">
-                    <div class="tip-icon">🎯</div>
-                    <h3>Contact Point</h3>
-                    <p>Contact the ball at the highest point possible with your arm fully extended. Reach high with your hitting shoulder. Time your jump perfectly with the ball's arrival.</p>
-                </div>
-
-                <div class="tip-card">
-                    <div class="tip-icon">🌪️</div>
-                    <h3>Wrist Snap</h3>
-                    <p>Snap your wrist over the ball to create topspin. This spin adds control and makes the ball drop faster inside the court. Follow through completely for power transfer.</p>
-                </div>
-
-                <div class="tip-card">
-                    <div class="tip-icon">🛑</div>
-                    <h3>Landing Mechanics</h3>
-                    <p>Land softly on the balls of your feet before heels touch. Allow knees and hips to bend naturally to absorb impact. This protects your joints and keeps you ready for the next play.</p>
-                </div>
+                <div class="tip"><h3>Approach rhythm</h3><p>Keep the last two steps fast, sharp, and controlled. Your final plant should feel explosive but balanced.</p></div>
+                <div class="tip"><h3>Arm swing</h3><p>Drive both arms up aggressively for more lift. The jump begins before your feet leave the floor.</p></div>
+                <div class="tip"><h3>Landing</h3><p>Land softly, absorb through hips and knees, and reset quickly so you’re ready for the next rep.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- ===== PROGRESS TRACKER ===== -->
-    <section id="progress-section">
-        <div class="container">
-            <h2>📈 Track Your Progress</h2>
-            <p class="subtitle">Monitor your improvements week over week with detailed measurements</p>
-
-            <div class="progress-container">
-                <div class="progress-card">
-                    <div class="progress-label">Standing Reach (inches)</div>
-                    <div class="input-group">
-                        <input type="number" id="standingReach" placeholder="e.g., 96">
-                        <button onclick="saveProgress('standingReach')">Save</button>
-                    </div>
-                    <div id="standingReachDisplay" class="progress-display" style="display:none;"></div>
-                </div>
-
-                <div class="progress-card">
-                    <div class="progress-label">Vertical Jump (inches)</div>
-                    <div class="input-group">
-                        <input type="number" id="verticalJump" placeholder="e.g., 28">
-                        <button onclick="saveProgress('verticalJump')">Save</button>
-                    </div>
-                    <div id="verticalJumpDisplay" class="progress-display" style="display:none;"></div>
-                </div>
-
-                <div class="progress-card">
-                    <div class="progress-label">Spike Contact Height (inches)</div>
-                    <div class="input-group">
-                        <input type="number" id="spikeHeight" placeholder="e.g., 120">
-                        <button onclick="saveProgress('spikeHeight')">Save</button>
-                    </div>
-                    <div id="spikeHeightDisplay" class="progress-display" style="display:none;"></div>
-                </div>
-
-                <div class="progress-card">
-                    <div class="progress-label">Successful Spikes (out of 20)</div>
-                    <div class="input-group">
-                        <input type="number" id="successSpikes" placeholder="e.g., 18" min="0" max="20">
-                        <button onclick="saveProgress('successSpikes')">Save</button>
-                    </div>
-                    <div id="successSpikesDisplay" class="progress-display" style="display:none;"></div>
-                </div>
-
-                <div class="progress-card">
-                    <div class="progress-label">Block Height (inches)</div>
-                    <div class="input-group">
-                        <input type="number" id="blockHeight" placeholder="e.g., 115">
-                        <button onclick="saveProgress('blockHeight')">Save</button>
-                    </div>
-                    <div id="blockHeightDisplay" class="progress-display" style="display:none;"></div>
-                </div>
-
-                <div class="progress-card">
-                    <div class="progress-label">Training Consistency (%)</div>
-                    <div class="input-group">
-                        <input type="number" id="consistency" placeholder="e.g., 95" min="0" max="100">
-                        <button onclick="saveProgress('consistency')">Save</button>
-                    </div>
-                    <div id="consistencyDisplay" class="progress-display" style="display:none;"></div>
-                </div>
+    <section id="progress" class="section wrap">
+        <div class="panel">
+            <h2>Progress Tracker</h2>
+            <p class="lead">Save your numbers locally so you can revisit them anytime on this device.</p>
+            <div class="progress-grid">
+                <div class="field"><label>Standing Reach</label><input id="standingReach" type="number" placeholder="inches"><div id="standingReachSaved" class="saved"></div><button class="btn btn-primary" style="margin-top:10px" onclick="saveField('standingReach')">Save</button></div>
+                <div class="field"><label>Approach Jump</label><input id="approachJump" type="number" placeholder="inches"><div id="approachJumpSaved" class="saved"></div><button class="btn btn-primary" style="margin-top:10px" onclick="saveField('approachJump')">Save</button></div>
+                <div class="field"><label>Spike Contact Height</label><input id="spikeHeight" type="number" placeholder="inches"><div id="spikeHeightSaved" class="saved"></div><button class="btn btn-primary" style="margin-top:10px" onclick="saveField('spikeHeight')">Save</button></div>
+                <div class="field"><label>Success Rate</label><input id="successRate" type="number" placeholder="out of 20"><div id="successRateSaved" class="saved"></div><button class="btn btn-primary" style="margin-top:10px" onclick="saveField('successRate')">Save</button></div>
             </div>
         </div>
     </section>
 
-    <!-- ===== DAILY CHECKLIST ===== -->
-    <section id="checklist-section">
-        <div class="container">
-            <h2>✅ Daily Training Checklist</h2>
-            <p class="subtitle">Ensure you complete every critical component of your workout</p>
-
-            <ul class="checklist" id="dailyChecklist">
-                <li class="checklist-item">
-                    <input type="checkbox" id="check1" onchange="toggleChecklist()">
-                    <label for="check1">Complete warm-up (10+ minutes)</label>
-                </li>
-                <li class="checklist-item">
-                    <input type="checkbox" id="check2" onchange="toggleChecklist()">
-                    <label for="check2">Main jumping drills with proper technique</label>
-                </li>
-                <li class="checklist-item">
-                    <input type="checkbox" id="check3" onchange="toggleChecklist()">
-                    <label for="check3">Spike mechanics practice (wall or net)</label>
-                </li>
-                <li class="checklist-item">
-                    <input type="checkbox" id="check4" onchange="toggleChecklist()">
-                    <label for="check4">Core/strength work as prescribed</label>
-                </li>
-                <li class="checklist-item">
-                    <input type="checkbox" id="check5" onchange="toggleChecklist()">
-                    <label for="check5">Cool-down stretching (5-10 minutes)</label>
-                </li>
-                <li class="checklist-item">
-                    <input type="checkbox" id="check6" onchange="toggleChecklist()">
-                    <label for="check6">Land softly every time – no hard landings</label>
-                </li>
-                <li class="checklist-item">
-                    <input type="checkbox" id="check7" onchange="toggleChecklist()">
-                    <label for="check7">Hydrate properly before/during/after</label>
-                </li>
-            </ul>
-
-            <div class="checklist-controls">
-                <button class="btn btn-secondary" onclick="resetChecklist()">
-                    <i class="fas fa-redo"></i> Reset Checklist
-                </button>
-            </div>
+    <section id="checklist" class="section wrap">
+        <div class="panel">
+            <h2>Daily Checklist</h2>
+            <p class="lead">Use this to keep your training clean, consistent, and safe.</p>
+            <div class="checklist" id="checklistBox"></div>
+            <button class="btn btn-ghost" style="margin-top:16px" onclick="resetChecklist()">Reset Checklist</button>
         </div>
     </section>
 
-    <!-- ===== INJURY PREVENTION ===== -->
-    <section id="prevention-section">
-        <div class="container">
-            <h2>🛡️ Injury Prevention Guide</h2>
-            <p class="subtitle">Protect yourself and maximize your training longevity</p>
-
-            <div class="prevention-grid">
-                <div class="prevention-item">
-                    <div class="prevention-icon">📊</div>
-                    <div class="prevention-content">
-                        <h4>Manage Jump Volume</h4>
-                        <p>Never perform maximum jumping volume on consecutive days if experiencing soreness. Allow 48 hours of recovery between intense plyometric sessions.</p>
-                    </div>
-                </div>
-
-                <div class="prevention-item">
-                    <div class="prevention-icon">🎯</div>
-                    <div class="prevention-content">
-                        <h4>Perfect Landing Mechanics</h4>
-                        <p>Prioritize landing mechanics before increasing jump intensity. Soft, controlled landings are essential for joint health and performance longevity.</p>
-                    </div>
-                </div>
-
-                <div class="prevention-item">
-                    <div class="prevention-icon">🦵</div>
-                    <div class="prevention-content">
-                        <h4>Knee Alignment</h4>
-                        <p>Keep knees aligned with toes during takeoff and landing. Never let knees cave inward. This prevents ACL injuries and improves power transfer.</p>
-                    </div>
-                </div>
-
-                <div class="prevention-item">
-                    <div class="prevention-icon">💪</div>
-                    <div class="prevention-content">
-                        <h4>Strengthen Support Muscles</h4>
-                        <p>Regularly strengthen calves, glutes, hamstrings, and core. These stabilizer muscles prevent overload on prime movers and ligaments.</p>
-                    </div>
-                </div>
-
-                <div class="prevention-item">
-                    <div class="prevention-icon">🦶</div>
-                    <div class="prevention-content">
-                        <h4>Ankle Mobility Work</h4>
-                        <p>Include ankle mobility work before every jumping session. Tight ankles restrict movement and increase injury risk. Spend 5-10 minutes on mobility.</p>
-                    </div>
-                </div>
-
-                <div class="prevention-item">
-                    <div class="prevention-icon">⚠️</div>
-                    <div class="prevention-content">
-                        <h4>Pain Management</h4>
-                        <p>If knee pain develops, reduce plyometric volume temporarily. Sharp pain is a warning sign. Listen to your body and adjust intensity accordingly.</p>
-                    </div>
-                </div>
-
-                <div class="prevention-item">
-                    <div class="prevention-icon">😴</div>
-                    <div class="prevention-content">
-                        <h4>Prioritize Recovery Sleep</h4>
-                        <p>Sleep 7-9 hours per night for optimal recovery and adaptation. Most strength gains occur during sleep when muscles rebuild and hormones balance.</p>
-                    </div>
-                </div>
-
-                <div class="prevention-item">
-                    <div class="prevention-icon">🥗</div>
-                    <div class="prevention-content">
-                        <h4>Nutrition & Hydration</h4>
-                        <p>Stay hydrated and maintain adequate protein intake (0.7-1g per lb bodyweight). Proper nutrition fuels workouts and supports muscle recovery.</p>
-                    </div>
-                </div>
-            </div>
+    <section id="readme" class="section wrap">
+        <div class="panel readme">
+            <h2>README / Launch Notes</h2>
+            <p>This project is a single-file web app designed to be deployed on GitHub Pages or any static host. The layout is intentionally unique: dark premium theme, glass panels, athletic motion animations, and VIP unlock flow.</p>
+            <p><strong>Launch:</strong> make sure your repository has this file saved as <code>index.html</code>. GitHub Pages can then publish it from the main branch root.</p>
         </div>
     </section>
 
-    <!-- ===== TESTIMONIALS ===== -->
-    <section id="testimonials">
-        <div class="container">
-            <h2>Success Stories</h2>
-            <p class="subtitle">See how athletes just like you transformed their game</p>
-
-            <div class="testimonials-grid">
-                <div class="testimonial">
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p>"I increased my vertical by 6 inches in just 4 weeks! The structured approach and technique tips made all the difference. My spikes are so much more powerful now."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">SD</div>
-                        <div class="author-info">
-                            <div class="author-name">Sarah D.</div>
-                            <div class="author-role">Intermediate Player, CA</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial">
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p>"The daily checklist keeps me accountable and the progress tracker motivates me to show up every day. I've never been stronger or more explosive on the court."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">MJ</div>
-                        <div class="author-info">
-                            <div class="author-name">Marcus J.</div>
-                            <div class="author-role">Competitive Setter, TX</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial">
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p>"Finally, a volleyball training program that actually explains the 'why' behind each exercise. Understanding the biomechanics helped me train smarter and avoid injury."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">AK</div>
-                        <div class="author-info">
-                            <div class="author-name">Amanda K.</div>
-                            <div class="author-role">Libero, NY</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== FOOTER ===== -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>About VolleyJump Pro</h4>
-                <ul>
-                    <li><a href="#"><i class="fas fa-circle"></i> Our Mission</a></li>
-                    <li><a href="#"><i class="fas fa-circle"></i> Coaching Team</a></li>
-                    <li><a href="#"><i class="fas fa-circle"></i> Science Behind Training</a></li>
-                    <li><a href="#"><i class="fas fa-circle"></i> Blog & Resources</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Training Programs</h4>
-                <ul>
-                    <li><a href="#"><i class="fas fa-circle"></i> Beginner Program</a></li>
-                    <li><a href="#"><i class="fas fa-circle"></i> Advanced Program</a></li>
-                    <li><a href="#"><i class="fas fa-circle"></i> Position-Specific Training</a></li>
-                    <li><a href="#"><i class="fas fa-circle"></i> Injury Prevention Course</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="#"><i class="fas fa-circle"></i> Contact Us</a></li>
-                    <li><a href="#"><i class="fas fa-circle"></i> FAQ</a></li>
-                    <li><a href="#"><i class="fas fa-circle"></i> Email Support</a></li>
-                    <li><a href="#"><i class="fas fa-circle"></i> Community Forum</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2024 VolleyJump Pro. All rights reserved. | <a href="#" style="color: rgba(255,255,255,0.7);">Privacy Policy</a> | <a href="#" style="color: rgba(255,255,255,0.7);">Terms of Service</a></p>
-        </div>
+    <footer class="wrap">
+        <div class="footer-card">VolleyForge — premium volleyball jump and spike training, built for your personal plan.</div>
     </footer>
 
-    <!-- ===== VIDEO DEMO MODAL ===== -->
-    <div class="modal" id="demoModal">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="modal" id="modal">
+        <div class="modal-box">
+            <div class="modal-head">
                 <h2 id="modalTitle">Exercise Demo</h2>
-                <button class="modal-close" onclick="closeDemo()">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button class="close" onclick="closeModal()">Close</button>
             </div>
             <div class="modal-body">
-                <div class="video-container">
-                    <div class="video-placeholder">
-                        <i class="fas fa-play-circle"></i>
-                    </div>
-                </div>
-                <div id="modalDescription"></div>
-                <div class="exercise-instructions">
-                    <h4>Step-by-Step Instructions</h4>
-                    <ol id="instructionsList"></ol>
-                </div>
+                <div id="modalContent"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // Exercise database with instructions
-        const exercises = {
-            'Approach Jumps': {
-                description: 'Master the fundamental 3-step approach jump. This is the foundation of every spike.',
-                instructions: [
-                    'Stand 6-8 feet from the wall in athletic position',
-                    'Take a controlled first step with right foot (or left, depending on handedness)',
-                    'Follow with a quick second step',
-                    'Execute a fast, explosive third step gathering both feet',
-                    'Swing both arms up explosively while pushing through your feet',
-                    'Jump vertically, reaching as high as possible',
-                    'Land softly on both feet, absorbing impact with your knees and hips'
+        const PLAN = [
+            {
+                day:'Day 1', focus:'Jump Technique + Arm Swing', intensity:'medium',
+                exercises:[
+                    {name:'Approach Jumps', reps:'5 x 5', demo:'Animated approach jump path', cue:'Fast last two steps, then explode straight up.'},
+                    {name:'Wall Spike Mechanics', reps:'4 x 15', demo:'Animated spike arm swing + contact', cue:'Reach high, snap wrist, and finish the swing.'},
+                    {name:'Bodyweight Squats', reps:'3 x 15', demo:'Animated squat depth and posture', cue:'Knees track over toes, chest tall, move with control.'},
+                    {name:'Front Plank', reps:'3 x 45 sec', demo:'Core hold animation', cue:'Brace the core, keep a straight line from head to heels.'}
                 ]
             },
-            'Wall Spike': {
-                description: 'Practice spike mechanics against a wall to develop perfect arm swing and contact point.',
-                instructions: [
-                    'Stand facing a wall, about 3-4 feet away',
-                    'Assume an athletic stance with feet shoulder-width apart',
-                    'Perform an approach jump toward the wall',
-                    'At peak height, reach up with both arms extended',
-                    'Keep your hitting arm bent at 90 degrees, elbow at shoulder height',
-                    'Contact the ball with an open hand at the highest point',
-                    'Snap your wrist over the ball for topspin',
-                    'Follow through with arm swing, landing softly'
+            {
+                day:'Day 2', focus:'Explosive Power', intensity:'high',
+                exercises:[
+                    {name:'Box Jumps', reps:'5 x 4', demo:'Animated jump-to-box sequence', cue:'Load the hips, jump powerfully, and land softly.'},
+                    {name:'Wall Spikes with Full Arm Swing', reps:'4 x 12', demo:'Animated full arm drive', cue:'Use your arms like springs to create extra lift.'},
+                    {name:'Bulgarian Split Squats', reps:'3 x 10 / leg', demo:'Animated single-leg lowering pattern', cue:'Stay stable through the front heel and control every rep.'},
+                    {name:'Side Planks', reps:'3 x 30 sec', demo:'Animated lateral core hold', cue:'Keep hips stacked and ribs controlled.'}
                 ]
             },
-            'Box Jumps': {
-                description: 'Build explosive vertical power with controlled plyometric box jumps.',
-                instructions: [
-                    'Stand facing a sturdy 18-24" box, about 1 foot away',
-                    'Place feet hip-width apart in athletic stance',
-                    'Swing arms back and bend knees to load power',
-                    'Explosively jump onto the box, landing softly with bent knees',
-                    'Stand up fully on top of the box',
-                    'Step down carefully (don\'t jump down to save joints)',
-                    'Rest 90-120 seconds between sets',
-                    'Progressively increase box height as strength improves'
+            {
+                day:'Day 3', focus:'Timing & Coordination', intensity:'medium',
+                exercises:[
+                    {name:'Block Jumps', reps:'5 x 6', demo:'Animated net block jump', cue:'React quickly and reach over the imaginary net.'},
+                    {name:'Spike Timing with Toss/Setter', reps:'5 x 8', demo:'Animated ball-timing approach', cue:'Approach when the ball is in the right window.'},
+                    {name:'Walking Lunges', reps:'3 x 12 / leg', demo:'Animated forward lunge path', cue:'Long step, upright torso, controlled knee path.'},
+                    {name:'Dead Bug Core Drill', reps:'3 x 12', demo:'Animated opposite arm-leg control', cue:'Move slowly and keep the low back stable.'}
                 ]
             },
-            'Block Jumps': {
-                description: 'Develop defensive jump ability for net coverage and block timing.',
-                instructions: [
-                    'Stand in ready position about 2 feet from the net',
-                    'Hands should be ready at shoulder height',
-                    'Watch for the spike approach and react quickly',
-                    'Perform a quick, vertical jump with both hands up',
-                    'Reach over the net, blocking the spike path',
-                    'Land in a staggered stance ready for next play',
-                    'Repeat in rhythm with a partner or coach tossing'
+            {
+                day:'Day 4', focus:'Recovery Day', intensity:'low',
+                exercises:[
+                    {name:'Mobility Flow', reps:'20-30 min', demo:'Animated joint mobility sequence', cue:'Move smoothly through hips, ankles, shoulders, and spine.'},
+                    {name:'Balance Training', reps:'3 x 60 sec', demo:'Animated single-leg balance hold', cue:'Stay tall, eyes forward, and keep the foot active.'},
+                    {name:'Light Passing Practice', reps:'20 min', demo:'Animated controlled pass prep', cue:'Keep platform steady and eyes on the ball.'},
+                    {name:'Foam Rolling', reps:'15-20 min', demo:'Animated recovery massage motion', cue:'Roll slowly over calves, quads, and glutes.'}
                 ]
             },
-            'Squats': {
-                description: 'Bodyweight squats build foundational lower body strength for jumping power.',
-                instructions: [
-                    'Stand with feet shoulder-width apart',
-                    'Keep chest up and eyes forward',
-                    'Bend knees and hips, lowering as if sitting into a chair',
-                    'Lower until thighs are parallel to the ground',
-                    'Keep weight in heels, not on toes',
-                    'Drive through heels to return to starting position',
-                    'Keep core tight throughout',
-                    'Perform slowly: 3 seconds down, 1 second up'
+            {
+                day:'Day 5', focus:'Reactive Jump Training', intensity:'high',
+                exercises:[
+                    {name:'Depth Jumps', reps:'4 x 5', demo:'Animated drop-step rebound jump', cue:'Minimize ground contact and jump instantly.'},
+                    {name:'Cross-Court Spike Practice', reps:'5 x 10', demo:'Animated cross-court attack path', cue:'Angle the hit and control the line of attack.'},
+                    {name:'Single-Leg Stability Work', reps:'3 x 10 / leg', demo:'Animated single-leg control hold', cue:'Fight wobble and keep hips square.'},
+                    {name:'Hollow Hold', reps:'3 x 30 sec', demo:'Animated hollow-body tension', cue:'Press the lower back down and keep tension.'}
                 ]
             },
-            'Split Squats': {
-                description: 'Single-leg strength work to develop balanced leg power and stability.',
-                instructions: [
-                    'Step forward into a lunge position, back knee nearly touching ground',
-                    'Back heel is elevated off the ground',
-                    'Front shin should be relatively vertical',
-                    'Drive through front heel to push back to starting position',
-                    'Complete all reps on one leg before switching',
-                    'Keep torso upright throughout',
-                    'Control the movement, 3 seconds down, 1 second up'
+            {
+                day:'Day 6', focus:'High-Intensity Volleyball Day', intensity:'high',
+                exercises:[
+                    {name:'Max Approach Jumps', reps:'6 x 4', demo:'Animated max jump sequence', cue:'Treat each jump like a game point.'},
+                    {name:'Live Hitting with Setter', reps:'6 x 8', demo:'Animated live set-to-hit timing', cue:'Read the set early and attack with purpose.'},
+                    {name:'Broad Jumps', reps:'4 x 5', demo:'Animated forward power jump', cue:'Launch forward with strong hip drive.'},
+                    {name:'Russian Twists', reps:'3 x 20', demo:'Animated rotational core twist', cue:'Rotate with control, not speed.'}
                 ]
             },
-            'Side Plank': {
-                description: 'Build lateral core stability essential for rotational power in spiking.',
-                instructions: [
-                    'Lie on your side with forearm on ground, elbow under shoulder',
-                    'Stack feet or stagger them for easier/harder variation',
-                    'Lift hips off ground, forming straight line from head to heels',
-                    'Engage obliques and maintain neutral spine',
-                    'Keep shoulders stacked over elbows',
-                    'Breathe steadily throughout hold',
-                    'Complete time on one side, then switch'
-                ]
-            },
-            'Lunges': {
-                description: 'Dynamic lower body strength and balance training for court movement.',
-                instructions: [
-                    'Start in standing position, feet together',
-                    'Step forward with right leg about 2-3 feet',
-                    'Lower hips until right knee is at 90 degrees',
-                    'Left knee hovers just above ground',
-                    'Keep torso upright, weight in front heel',
-                    'Push through front heel to return to starting position',
-                    'Alternate legs in walking pattern',
-                    'Maintain controlled, deliberate movements'
-                ]
-            },
-            'Mobility': {
-                description: 'Joint mobility and flexibility work for injury prevention and range of motion.',
-                instructions: [
-                    'Start with arm circles: 10 forward, 10 backward',
-                    'Hip circles: Hands on hips, draw circles with hips',
-                    'Leg swings: Forward/back and side-to-side',
-                    'Cat-cow stretch: Alternate between arched and rounded spine',
-                    'World\'s greatest stretch: Lunge with rotation and reach',
-                    'Walk on hands to downward dog',
-                    'Spend 20-30 minutes total moving through all joints'
-                ]
-            },
-            'Balance': {
-                description: 'Proprioceptive development for ankle stability and body awareness.',
-                instructions: [
-                    'Stand on one leg, eyes forward',
-                    'Lift other knee to hip height',
-                    'Hold balance for prescribed time (start with 30 sec)',
-                    'Progress by closing eyes or standing on unstable surface',
-                    'Switch legs and repeat',
-                    'Engage core and maintain neutral posture',
-                    'Advanced: stand on balance pad or BOSU ball'
-                ]
-            },
-            'Depth Jumps': {
-                description: 'Advanced plyometric training to develop reactive strength index.',
-                instructions: [
-                    'Stand on 12-18" box edge',
-                    'Step off box (don\'t jump), landing immediately',
-                    'Upon landing, immediately jump vertically as high as possible',
-                    'Minimize ground contact time - 0.5 second or less',
-                    'Land softly and stick the landing',
-                    'Step back onto box and repeat',
-                    'Rest 90-120 seconds between sets',
-                    'This is an advanced exercise - master basics first'
-                ]
-            },
-            'Broad Jumps': {
-                description: 'Develop horizontal explosiveness and power endurance.',
-                instructions: [
-                    'Start in athletic stance with feet shoulder-width apart',
-                    'Bend knees and swing arms back',
-                    'Explosively jump forward as far as possible',
-                    'Drive arms forward and up for momentum',
-                    'Land on both feet with knees bent',
-                    'Immediately jump again for next rep',
-                    'Focus on distance covered each jump',
-                    'Rest adequately between sets'
-                ]
-            },
-            'Foam Rolling': {
-                description: 'Myofascial release technique to improve recovery and reduce soreness.',
-                instructions: [
-                    'Start with quadriceps: Roll from hip to knee, 10-20 passes',
-                    'Calves: Roll from ankle to knee slowly',
-                    'Hamstrings: Sit and roll underneath thighs',
-                    'IT band: Side-lying, roll along outer thigh',
-                    'Back: Roll along sides of spine (avoid direct spine)',
-                    'Spend 30-60 seconds per muscle group',
-                    'Roll slowly and pause on tender areas for 10-15 seconds',
-                    'Can be done before or after training (especially after)'
-                ]
-            },
-            'Max Approach': {
-                description: 'Maximum effort approach jumps for peak power development.',
-                instructions: [
-                    'Perform full 3-step approach with maximum intensity',
-                    'Focus on maximum height, not technique',
-                    'Explosive arm swing and takeoff',
-                    'Full extension at peak height',
-                    'Land safely and reset',
-                    'Rest 2-3 minutes between sets',
-                    'Only perform when fully recovered',
-                    'Quality over quantity - fewer reps at max effort'
-                ]
-            },
-            'Live Hitting': {
-                description: 'Game-realistic hitting practice with setter tossing balls.',
-                instructions: [
-                    'Partner acts as setter, tossing ball over net',
-                    'Position in ready stance 10 feet from net',
-                    'React to toss, read ball trajectory',
-                    'Approach step and execute spike',
-                    'Attack different zones (angle, line, deep)',
-                    'Setter provides variety of set heights and distances',
-                    'Repeat for prescribed number of attacks',
-                    'Focus on consistency and game-specific techniques'
-                ]
-            },
-            'Glute Bridges': {
-                description: 'Target glute activation and hip extension strength.',
-                instructions: [
-                    'Lie on back with knees bent, feet flat on ground',
-                    'Feet should be hip-width apart, heels about 12 inches from glutes',
-                    'Place hands at sides, palms down',
-                    'Push through heels to lift hips off ground',
-                    'Lift until body forms straight line from knees to shoulders',
-                    'Squeeze glutes hard at top of movement',
-                    'Lower hips back down with control',
-                    'Perform slowly: 2 seconds up, 1 second hold, 2 seconds down'
-                ]
-            },
-            'Cross-Court': {
-                description: 'Directional spike practice for court placement and offensive variety.',
-                instructions: [
-                    'Position at net in offensive zone',
-                    'Setter provides toss',
-                    'Execute spike with controlled direction across court',
-                    'Target deep cross-court zones',
-                    'Vary pace and angle of spikes',
-                    'Focus on precision over power',
-                    'Repeat with systematic coverage of all zones',
-                    'Build offensive consistency and read'
-                ]
-            },
-            'Target Spikes': {
-                description: 'Precision spike placement practice for match situations.',
-                instructions: [
-                    'Place cones or tape on floor marking target zones',
-                    'Perform approach and spike aiming for specific zones',
-                    'Practice hitting sidelines, deep corners, short edges',
-                    'Count successful placements into zones',
-                    'Gradually increase difficulty by reducing zone size',
-                    'Combine with movement around court',
-                    'Build muscle memory for placement under pressure'
-                ]
-            },
-            'Controlled Jumps': {
-                description: 'Perfect form practice with technical precision.',
-                instructions: [
-                    'Perform approach jumps at 70-80% intensity',
-                    'Focus on every detail of mechanics',
-                    'Ensure proper foot placement each step',
-                    'Smooth arm swing timing',
-                    'Full extension at peak height',
-                    'Soft, controlled landing every time',
-                    'Use mirror or video to check form',
-                    'Quality reps build perfect movement patterns'
-                ]
-            },
-            'Spike Timing': {
-                description: 'Game-realistic spike coordination with moving ball and setter.',
-                instructions: [
-                    'Partner tosses ball to net',
-                    'Read ball trajectory and approach timing',
-                    'Time approach steps with ball arrival',
-                    'Jump at proper moment for peak contact',
-                    'Execute spike with full arm extension',
-                    'Setter should vary toss location and height',
-                    'Practice reacting to difficult sets',
-                    'Build game-speed reflexes and timing'
-                ]
-            },
-            'Hollow Hold': {
-                description: 'Total body tension exercise for core strength and body positioning.',
-                instructions: [
-                    'Lie on back, arms extended overhead',
-                    'Engage core, squeeze glutes, press ribs down',
-                    'Rock slightly forward so entire body is tense',
-                    'Body should form slight banana shape',
-                    'Maintain steady breathing throughout',
-                    'Focus on total body tension, not just abs',
-                    'Hold position for prescribed time',
-                    'This teaches body positioning for power transfer'
+            {
+                day:'Day 7', focus:'Technique Refinement', intensity:'low',
+                exercises:[
+                    {name:'Controlled Approach Jumps', reps:'4 x 5', demo:'Animated slow-perfect reps', cue:'Focus on perfect form and quiet landings.'},
+                    {name:'Target Spiking Accuracy', reps:'5 x 10', demo:'Animated target placement hit', cue:'Aim for zones instead of raw power.'},
+                    {name:'Glute Bridges', reps:'3 x 15', demo:'Animated hip bridge hold', cue:'Squeeze glutes at the top, move with control.'},
+                    {name:'Bird Dogs', reps:'3 x 12', demo:'Animated opposite arm-leg extension', cue:'Move slowly and avoid hip rotation.'}
                 ]
             }
-        };
+        ];
 
-        // Navigation
-        function toggleMenu() {
-            const menu = document.getElementById('navMenu');
-            menu.classList.toggle('active');
+        const VIP_PLAN = [
+            { day:'VIP Day 1', title:'Explosiveness Primer', items:['Approach jump clusters','Landing mechanics review','Approach speed timing'] },
+            { day:'VIP Day 2', title:'Advanced Contact Work', items:['Ball-timing spikes','Peak reach reps','Wrist snap control'] },
+            { day:'VIP Day 3', title:'Power + Recovery Split', items:['Depth jumps','Mobility reset','Core anti-rotation'] },
+            { day:'VIP Day 4', title:'Court-Speed Session', items:['Reactive footwork','Fast approach reads','Game-like hitting'] }
+        ];
+
+        const checklistItems = [
+            'Warm-up completed',
+            'Jump mechanics done',
+            'Spike mechanics done',
+            'Strength/core work done',
+            'Cool-down finished',
+            'Hydration checked',
+            'Soft landings maintained'
+        ];
+
+        function toggleMenu(){document.getElementById('navlinks').classList.toggle('show')}
+        function openModal(title, html){document.getElementById('modalTitle').textContent=title;document.getElementById('modalContent').innerHTML=html;document.getElementById('modal').classList.add('show')}
+        function closeModal(){document.getElementById('modal').classList.remove('show')}
+        document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal') closeModal()})
+
+        function renderPlan(){
+            const tabs=document.getElementById('tabs');
+            const days=document.getElementById('days');
+            tabs.innerHTML=''; days.innerHTML='';
+            PLAN.forEach((d,i)=>{
+                const b=document.createElement('button'); b.className='tab'+(i===0?' active':''); b.textContent=d.day;
+                b.onclick=()=>showDay(i);
+                tabs.appendChild(b);
+
+                const div=document.createElement('div');
+                div.className='day'+(i===0?' active':'');
+                div.id=`day-${i}`;
+                div.innerHTML=`
+                    <div class="day-head">
+                        <div><h3>${d.day} — ${d.focus}</h3><p class="lead" style="margin:4px 0 0">Click any exercise card to see a guided animated demo.</p></div>
+                        <div class="tag ${d.intensity}">${d.intensity.toUpperCase()} INTENSITY</div>
+                    </div>
+                    <div class="exercise-grid">
+                        ${d.exercises.map(ex=>`
+                            <article class="exercise">
+                                <div class="exercise-top">
+                                    <div class="demo-stage" aria-hidden="true">
+                                        <div class="motion-line"></div>
+                                        <div class="jump-figure"></div>
+                                        <div class="move-dot"></div>
+                                    </div>
+                                </div>
+                                <div class="exercise-body">
+                                    <h3>${ex.name}</h3>
+                                    <p class="desc">${ex.cue}</p>
+                                    <div class="meta">
+                                        <div class="reps">${ex.reps}</div>
+                                        <button class="outlineBtn" onclick="openExercise('${ex.name}','${ex.demo}','${ex.cue}','${ex.reps}')">Open Demo</button>
+                                    </div>
+                                </div>
+                            </article>
+                        `).join('')}
+                    </div>
+                `;
+                days.appendChild(div)
+            })
+        }
+        function showDay(i){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.day').forEach(d=>d.classList.remove('active'));document.querySelectorAll('.tab')[i].classList.add('active');document.getElementById(`day-${i}`).classList.add('active')}
+        function openExercise(name,demo,cue,reps){
+            openModal(name, `
+                <div class="panel" style="background:rgba(255,255,255,.02);border:none;box-shadow:none;padding:0">
+                    <p><strong>Sets/Reps:</strong> ${reps}</p>
+                    <p style="margin:10px 0 14px;color:var(--muted)">${demo}</p>
+                    <div style="height:220px;border-radius:18px;background:linear-gradient(135deg, rgba(139,92,246,.18), rgba(34,211,238,.12));border:1px solid var(--line);position:relative;overflow:hidden;margin-bottom:16px">
+                        <div style="position:absolute;left:14%;bottom:16px;width:58px;height:58px;border-radius:18px;background:#dbeafe;animation:jumpFigure 2.7s ease-in-out infinite"></div>
+                        <div style="position:absolute;left:18%;bottom:18px;right:14%;height:2px;background:rgba(255,255,255,.18)"></div>
+                        <div style="position:absolute;right:18%;top:28%;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#fff,#f59e0b);animation:ballArc 2.7s ease-in-out infinite"></div>
+                    </div>
+                    <div class="tip"><h3>How to do it</h3><p>${cue}</p></div>
+                </div>
+            `)
         }
 
-        function closeMenu() {
-            document.getElementById('navMenu').classList.remove('active');
+        function unlockVIP(){
+            const pw=document.getElementById('vipPassword').value.trim();
+            const box=document.getElementById('vipGrid');
+            const msg=document.getElementById('vipMessage');
+            if(pw !== 'skyXbatata'){ msg.textContent='Wrong password. VIP plan remains locked.'; msg.style.color='var(--danger)'; return; }
+            msg.textContent='VIP unlocked successfully.'; msg.style.color='var(--success)';
+            box.classList.add('active');
+            box.innerHTML = VIP_PLAN.map(v=>`
+                <div class="tip" style="background:rgba(255,255,255,.03)">
+                    <h3>${v.day}</h3>
+                    <p style="font-weight:800;color:#fde68a;margin-bottom:8px">${v.title}</p>
+                    <ul style="margin-left:18px;color:var(--muted);line-height:1.8">
+                        ${v.items.map(item=>`<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
         }
 
-        function scrollToSection(sectionId) {
-            closeMenu();
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
+        function saveField(id){
+            const v=document.getElementById(id).value; if(!v) return;
+            localStorage.setItem(id,v); document.getElementById(id+'Saved').textContent=`Saved: ${v}`;
         }
-
-        // Day tabs
-        function showDay(day, event) {
-            // Hide all cards
-            document.querySelectorAll('.workout-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            // Remove active from all buttons
-            document.querySelectorAll('.day-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            // Show selected day
-            document.querySelector(`[data-day="${day}"]`).classList.add('active');
-            // Add active to button
-            event.target.classList.add('active');
+        function loadSaved(){['standingReach','approachJump','spikeHeight','successRate'].forEach(id=>{const v=localStorage.getItem(id); if(v){document.getElementById(id).value=v; document.getElementById(id+'Saved').textContent=`Saved: ${v}`;}})}
+        function renderChecklist(){
+            const box=document.getElementById('checklistBox');
+            const saved=JSON.parse(localStorage.getItem('checklistState')||'[]');
+            box.innerHTML=checklistItems.map((t,i)=>`<label class="check ${saved[i]?'done':''}"><input type="checkbox" ${saved[i]?'checked':''} onchange="toggleCheck(${i}, this)"><span>${t}</span></label>`).join('');
         }
-
-        // Demo modal
-        function openDemo(exerciseName) {
-            const exercise = exercises[exerciseName];
-            if (!exercise) return;
-
-            document.getElementById('modalTitle').textContent = exerciseName;
-            document.getElementById('modalDescription').innerHTML = `<p style="color: var(--text-light); margin-bottom: 20px;">${exercise.description}</p>`;
-            
-            const list = document.getElementById('instructionsList');
-            list.innerHTML = '';
-            exercise.instructions.forEach(instruction => {
-                const li = document.createElement('li');
-                li.textContent = instruction;
-                list.appendChild(li);
-            });
-
-            document.getElementById('demoModal').classList.add('active');
+        function toggleCheck(i, el){
+            const saved=JSON.parse(localStorage.getItem('checklistState')||'[]'); saved[i]=el.checked; localStorage.setItem('checklistState', JSON.stringify(saved)); renderChecklist();
         }
+        function resetChecklist(){localStorage.setItem('checklistState', JSON.stringify([])); renderChecklist();}
 
-        function closeDemo() {
-            document.getElementById('demoModal').classList.remove('active');
-        }
-
-        // Close modal on background click
-        document.getElementById('demoModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeDemo();
-            }
-        });
-
-        // Progress tracking
-        function saveProgress(field) {
-            const value = document.getElementById(field).value;
-            if (value) {
-                localStorage.setItem(field, value);
-                updateProgressDisplay(field);
-                alert('✅ Progress saved successfully!');
-            } else {
-                alert('⚠️ Please enter a value first');
-            }
-        }
-
-        function updateProgressDisplay(field) {
-            const value = localStorage.getItem(field);
-            const displayId = field + 'Display';
-            const display = document.getElementById(displayId);
-            
-            if (value) {
-                const labels = {
-                    'standingReach': 'Standing Reach',
-                    'verticalJump': 'Vertical Jump',
-                    'spikeHeight': 'Spike Contact Height',
-                    'successSpikes': 'Successful Spikes',
-                    'blockHeight': 'Block Height',
-                    'consistency': 'Training Consistency'
-                };
-                
-                const unit = field === 'consistency' ? '%' : '"';
-                display.innerHTML = `<strong>${labels[field]}: ${value}${unit}</strong>`;
-                display.style.display = 'block';
-            }
-        }
-
-        // Load saved data on page load
-        window.addEventListener('DOMContentLoaded', function() {
-            ['standingReach', 'verticalJump', 'spikeHeight', 'successSpikes', 'blockHeight', 'consistency'].forEach(field => {
-                const saved = localStorage.getItem(field);
-                if (saved) {
-                    document.getElementById(field).value = saved;
-                    updateProgressDisplay(field);
-                }
-            });
-
-            // Load checklist
-            const checklistState = JSON.parse(localStorage.getItem('checklistState') || '[]');
-            document.querySelectorAll('#dailyChecklist input').forEach((checkbox, index) => {
-                if (checklistState[index]) {
-                    checkbox.checked = true;
-                    checkbox.parentElement.classList.add('completed');
-                }
-            });
-        });
-
-        // Checklist functions
-        function toggleChecklist() {
-            const checkboxes = document.querySelectorAll('#dailyChecklist input');
-            const state = [];
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    checkbox.parentElement.classList.add('completed');
-                    state.push(true);
-                } else {
-                    checkbox.parentElement.classList.remove('completed');
-                    state.push(false);
-                }
-            });
-            localStorage.setItem('checklistState', JSON.stringify(state));
-        }
-
-        function resetChecklist() {
-            document.querySelectorAll('#dailyChecklist input').forEach(checkbox => {
-                checkbox.checked = false;
-                checkbox.parentElement.classList.remove('completed');
-            });
-            localStorage.setItem('checklistState', JSON.stringify([]));
-        }
+        renderPlan(); loadSaved(); renderChecklist();
     </script>
-
 </body>
 </html>
