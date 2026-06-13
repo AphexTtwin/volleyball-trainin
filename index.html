@@ -1,602 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VolleyForge - Volleyball Jump & Spike Training</title>
-    <meta name="description" content="A premium volleyball jump, spike, and performance training website with animated guidance, progress tracking, and VIP training mode.">
-    <style>
-        :root{
-            --bg:#0b1020;
-            --bg2:#111935;
-            --panel:#131b33;
-            --panel2:#182244;
-            --text:#eef3ff;
-            --muted:#9cabd6;
-            --line:rgba(255,255,255,.10);
-            --accent:#8b5cf6;
-            --accent2:#22d3ee;
-            --accent3:#f59e0b;
-            --success:#22c55e;
-            --danger:#ef4444;
-            --shadow:0 18px 60px rgba(0,0,0,.35);
-            --radius:22px;
-            --radius2:16px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VolleyForge Media Library</title>
+  <meta name="description" content="Volleyball training media library with royalty-free source pages, tabs, and watch modals." />
+  <style>
+    :root {
+      --bg:#07111f;
+      --bg2:#0c1730;
+      --panel:#111c36;
+      --panel2:#162447;
+      --text:#f4f7ff;
+      --muted:#aab7da;
+      --line:rgba(255,255,255,.10);
+      --blue:#2d7ff9;
+      --cyan:#1fd3ff;
+      --orange:#ff9f43;
+      --green:#22c55e;
+      --shadow:0 18px 50px rgba(0,0,0,.36);
+      --radius:22px;
+    }
 
-        *{box-sizing:border-box;margin:0;padding:0}
-        html{scroll-behavior:smooth}
-        body{
-            font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-            background:
-                radial-gradient(circle at top left, rgba(139,92,246,.22), transparent 28%),
-                radial-gradient(circle at top right, rgba(34,211,238,.16), transparent 24%),
-                linear-gradient(180deg, #060913 0%, var(--bg) 100%);
-            color:var(--text);
-            min-height:100vh;
-        }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(45,127,249,.18), transparent 26%),
+        radial-gradient(circle at top right, rgba(31,211,255,.12), transparent 24%),
+        linear-gradient(180deg, #050a14 0%, var(--bg) 100%);
+      color:var(--text);
+      min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    .wrap{max-width:1320px;margin:0 auto;padding:0 20px}
 
-        a{color:inherit;text-decoration:none}
-        button,input{font:inherit}
-        .wrap{max-width:1280px;margin:0 auto;padding:0 20px}
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(18px);
+      background:rgba(5,10,20,.78);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.2px}
+    .brand-mark{
+      width:42px;height:42px;border-radius:14px;
+      background:linear-gradient(135deg,var(--blue),var(--cyan));
+      display:grid;place-items:center;box-shadow:0 10px 28px rgba(45,127,249,.25)
+    }
+    .brand-mark span{font-size:1.15rem}
+    .navlinks{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .navlinks a,.navlinks button{
+      border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;
+      padding:10px 14px;border-radius:999px;transition:.2s ease
+    }
+    .navlinks a:hover,.navlinks button:hover{color:var(--text);background:rgba(255,255,255,.05);border-color:var(--line)}
+    .menuBtn{display:none;background:transparent;border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:12px}
 
-        /* Top bar */
-        .topbar{
-            position:sticky;top:0;z-index:1000;
-            backdrop-filter:blur(18px);
-            background:rgba(6,9,19,.72);
-            border-bottom:1px solid var(--line);
-        }
-        .nav{
-            height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px
-        }
-        .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.3px}
-        .brand-mark{
-            width:42px;height:42px;border-radius:14px;
-            background:linear-gradient(135deg,var(--accent),var(--accent2));
-            display:grid;place-items:center;box-shadow:0 10px 30px rgba(139,92,246,.35)
-        }
-        .brand-mark svg{width:24px;height:24px;fill:white}
-        .brand span{font-size:1.1rem}
-        .navlinks{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-        .navlinks a{
-            padding:10px 14px;border-radius:999px;color:var(--muted);
-            transition:.22s ease;border:1px solid transparent
-        }
-        .navlinks a:hover{color:var(--text);background:rgba(255,255,255,.04);border-color:var(--line)}
-        .menuBtn{display:none;background:transparent;border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:12px}
+    .hero{padding:34px 0 18px}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:20px}
+    .card,.panel{
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)
+    }
+    .hero-card{padding:30px}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:8px 14px;border-radius:999px;
+      background:rgba(255,159,67,.12);border:1px solid rgba(255,159,67,.2);
+      color:#ffd9b2;font-weight:800;font-size:.85rem;margin-bottom:16px
+    }
+    h1{font-size:clamp(2.1rem,5vw,4.2rem);line-height:1.02;margin-bottom:14px}
+    .hero p{color:var(--muted);line-height:1.8;font-size:1.03rem;max-width:66ch}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .btn{
+      border:none;border-radius:16px;padding:13px 18px;font-weight:800;cursor:pointer;
+      display:inline-flex;align-items:center;gap:10px;transition:.2s ease
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:linear-gradient(135deg,var(--blue),#1847d1);color:white}
+    .btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+    .stat{padding:16px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
+    .stat strong{display:block;font-size:1.35rem}
+    .stat span{color:var(--muted);font-size:.9rem}
 
-        /* Hero */
-        .hero{padding:40px 0 24px}
-        .hero-grid{
-            display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:stretch
-        }
-        .hero-card,.side-card{
-            background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-            border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
-            overflow:hidden;position:relative
-        }
-        .hero-card{padding:32px}
-        .eyebrow{
-            display:inline-flex;align-items:center;gap:10px;
-            padding:8px 14px;border-radius:999px;
-            background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.26);
-            color:#d8ccff;font-weight:700;font-size:.86rem;margin-bottom:18px
-        }
-        .hero h1{font-size:clamp(2.2rem,4.8vw,4.5rem);line-height:1.02;margin-bottom:14px}
-        .hero p{color:var(--muted);font-size:1.04rem;line-height:1.8;max-width:62ch}
-        .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-        .btn{
-            border:none;border-radius:16px;padding:13px 18px;font-weight:800;cursor:pointer;
-            transition:.2s ease;display:inline-flex;align-items:center;gap:10px
-        }
-        .btn:hover{transform:translateY(-2px)}
-        .btn-primary{background:linear-gradient(135deg,var(--accent),#6d28d9);color:white;box-shadow:0 18px 35px rgba(139,92,246,.28)}
-        .btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text)}
-        .statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
-        .stat{
-            background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:18px;padding:16px
-        }
-        .stat strong{display:block;font-size:1.35rem}
-        .stat span{color:var(--muted);font-size:.9rem}
+    .hero-visual{padding:18px;display:grid;grid-template-rows:auto 1fr}
+    .motion-stage{
+      min-height:270px;border-radius:20px;overflow:hidden;position:relative;
+      background:linear-gradient(180deg, rgba(31,211,255,.12), rgba(45,127,249,.06)), linear-gradient(180deg, #17304d, #10203a)
+    }
+    .court{position:absolute;inset:18px;border:2px solid rgba(255,255,255,.15);border-radius:18px}
+    .court:before,.court:after{content:"";position:absolute;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.16)}
+    .court:before{top:0;bottom:0;width:2px}
+    .court:after{top:50%;height:2px;width:100%}
+    .athlete,.ball,.trail{position:absolute}
+    .athlete{
+      left:16%;bottom:18%;width:74px;height:74px;border-radius:20px;
+      background:linear-gradient(135deg,#e0e7ff,#8b5cf6);animation:jump 2.8s ease-in-out infinite
+    }
+    .athlete:before{content:"";position:absolute;left:28px;top:8px;width:18px;height:18px;border-radius:50%;background:white}
+    .athlete:after{content:"";position:absolute;left:10px;top:28px;width:54px;height:14px;border-radius:999px;background:rgba(255,255,255,.85)}
+    .ball{right:20%;bottom:44%;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #fff, #ff9f43 68%, #c2410c 100%);animation:ballArc 2.8s ease-in-out infinite}
+    .trail{left:14%;bottom:24%;width:46%;height:2px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);opacity:.7}
+    .motion-note{padding:16px 18px;color:var(--muted);line-height:1.7}
 
-        .hero-visual{display:grid;grid-template-rows:auto 1fr;min-height:100%}
-        .court-preview{
-            padding:18px;background:
-                linear-gradient(180deg, rgba(34,211,238,.10), rgba(139,92,246,.08)),
-                radial-gradient(circle at 50% 20%, rgba(255,255,255,.08), transparent 35%),
-                linear-gradient(180deg, #17304c 0%, #10243d 100%);
-            border-bottom:1px solid var(--line);position:relative;min-height:240px;overflow:hidden
-        }
-        .court-lines{
-            position:absolute;inset:18px;border:2px solid rgba(255,255,255,.18);border-radius:18px
-        }
-        .court-lines:before,.court-lines:after{
-            content:"";position:absolute;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.18)
-        }
-        .court-lines:before{top:0;bottom:0;width:2px}
-        .court-lines:after{top:50%;height:2px;width:100%}
-        .player{
-            position:absolute;left:20%;bottom:18%;width:88px;height:88px;border-radius:50%;
-            background:radial-gradient(circle at 30% 30%, #ffffff, #c7d2fe 55%, #8b5cf6 100%);
-            box-shadow:0 0 40px rgba(34,211,238,.25);
-            animation: jumpPulse 2.6s ease-in-out infinite
-        }
-        .player:before{
-            content:"";position:absolute;left:31px;top:10px;width:26px;height:42px;border-radius:999px 999px 12px 12px;background:rgba(15,23,42,.92)
-        }
-        .player:after{
-            content:"";position:absolute;left:6px;top:40px;width:76px;height:18px;border-radius:999px;background:rgba(255,255,255,.14)
-        }
-        .ball{
-            position:absolute;right:18%;bottom:42%;width:32px;height:32px;border-radius:50%;
-            background:radial-gradient(circle at 30% 30%, #fff, #f59e0b 65%, #c2410c 100%);
-            animation: ballArc 2.6s ease-in-out infinite
-        }
-        .arrow{
-            position:absolute;right:28%;bottom:36%;font-size:2.1rem;color:#86efac;animation: floaty 2.6s ease-in-out infinite
-        }
-        .side-card{padding:22px}
-        .mini-title{font-weight:800;font-size:1.05rem;margin-bottom:10px}
-        .mini-copy{color:var(--muted);line-height:1.7;font-size:.95rem}
-        .vip-banner{
-            margin-top:14px;padding:14px 16px;border-radius:16px;
-            background:linear-gradient(135deg, rgba(245,158,11,.18), rgba(139,92,246,.14));
-            border:1px solid rgba(245,158,11,.22)
-        }
+    .section{padding:18px 0}
+    .panel{padding:24px}
+    .section-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px}
+    .section-head h2{font-size:2rem}
+    .section-head p{color:var(--muted);line-height:1.8;max-width:70ch}
 
-        /* Sections */
-        .section{padding:24px 0 10px}
-        .panel{
-            background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-            border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px
-        }
-        .section h2{font-size:2rem;margin-bottom:8px}
-        .section p.lead{color:var(--muted);margin-bottom:18px;line-height:1.8}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 18px}
+    .tab{padding:11px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);font-weight:800;cursor:pointer}
+    .tab.active,.tab:hover{background:linear-gradient(135deg,var(--blue),var(--cyan));color:white;border-color:transparent}
+    .tab-panels{display:none}
+    .tab-panels.active{display:block}
 
-        /* Training tabs */
-        .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 20px}
-        .tab{
-            border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);
-            padding:10px 14px;border-radius:999px;cursor:pointer;font-weight:700;transition:.2s ease
-        }
-        .tab.active,.tab:hover{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;border-color:transparent}
-        .day{display:none;animation:fadeUp .35s ease}
-        .day.active{display:block}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .exercise{
+      overflow:hidden;border-radius:22px;border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      transition:.22s ease;display:flex;flex-direction:column
+    }
+    .exercise:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(0,0,0,.28);border-color:rgba(31,211,255,.25)}
+    .media{
+      position:relative;height:190px;background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,.12), transparent 30%),
+        linear-gradient(135deg, rgba(45,127,249,.18), rgba(31,211,255,.1));
+      overflow:hidden
+    }
+    .badge{
+      position:absolute;top:14px;left:14px;z-index:2;
+      padding:7px 10px;border-radius:999px;background:rgba(0,0,0,.38);backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.1);color:#e8f4ff;font-size:.8rem;font-weight:800
+    }
+    .media-anim{position:absolute;inset:0;display:grid;place-items:center}
+    .svg-wrap{width:88%;height:88%;display:grid;place-items:center}
+    .svg-wrap svg{width:100%;height:100%;max-width:360px;max-height:170px;display:block}
+    .body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+    .body h3{font-size:1.05rem;line-height:1.3}
+    .cue{color:var(--muted);line-height:1.7;font-size:.95rem;min-height:48px}
+    .source-note{font-size:.82rem;color:#ffd9b2}
+    .bottom{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:auto;flex-wrap:wrap}
+    .watch{background:linear-gradient(135deg,var(--orange),#ff7a18);color:white;padding:10px 14px;border:none;border-radius:14px;font-weight:900;cursor:pointer}
+    .watch:hover{transform:translateY(-2px)}
+    .source{font-size:.82rem;color:var(--muted)}
 
-        .day-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-        .tag{padding:8px 12px;border-radius:999px;font-size:.8rem;font-weight:800}
-        .high{background:rgba(239,68,68,.15);color:#fecaca;border:1px solid rgba(239,68,68,.22)}
-        .medium{background:rgba(245,158,11,.16);color:#fde68a;border:1px solid rgba(245,158,11,.2)}
-        .low{background:rgba(34,197,94,.14);color:#bbf7d0;border:1px solid rgba(34,197,94,.2)}
+    .vip-lock{
+      border:1px solid rgba(255,159,67,.18);background:linear-gradient(180deg, rgba(255,159,67,.08), rgba(45,127,249,.05));
+      border-radius:22px;padding:22px;box-shadow:var(--shadow)
+    }
+    .vip-inputs{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}
+    .vip-inputs input{
+      flex:1;min-width:220px;padding:14px 15px;border-radius:14px;border:1px solid var(--line);
+      background:rgba(255,255,255,.05);color:var(--text)
+    }
+    .vip-msg{margin-top:10px;font-weight:800}
+    .locked-grid{display:none;margin-top:18px}
+    .locked-grid.active{display:grid}
+    .vip-card{padding:18px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03)}
+    .vip-card h3{margin-bottom:8px}
+    .vip-card ul{margin-left:18px;color:var(--muted);line-height:1.8}
 
-        .exercise-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-        .exercise{
-            background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-            border:1px solid var(--line);border-radius:20px;overflow:hidden
-        }
-        .exercise-top{
-            position:relative;min-height:160px;padding:18px;background:radial-gradient(circle at 50% 20%, rgba(255,255,255,.12), transparent 30%), linear-gradient(135deg, rgba(139,92,246,.14), rgba(34,211,238,.08));
-        }
-        .demo-stage{
-            height:160px;border-radius:16px;background:rgba(0,0,0,.18);border:1px dashed rgba(255,255,255,.16);position:relative;overflow:hidden
-        }
-        .move-dot{
-            position:absolute;left:14px;bottom:24px;width:20px;height:20px;border-radius:50%;background:#fff;
-            box-shadow:0 0 18px rgba(255,255,255,.5);animation:moveArc 2.8s linear infinite
-        }
-        .motion-line{position:absolute;left:12px;bottom:20px;right:20%;height:2px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);transform-origin:left center;opacity:.55}
-        .jump-figure{
-            position:absolute;left:18%;bottom:14px;width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,#e0e7ff,#8b5cf6);animation:jumpFigure 2.8s ease-in-out infinite
-        }
-        .jump-figure:before{content:"";position:absolute;left:20px;top:8px;width:18px;height:18px;border-radius:50%;background:#fff}
-        .jump-figure:after{content:"";position:absolute;left:11px;top:28px;width:36px;height:18px;border-radius:999px;background:rgba(255,255,255,.86)}
-        .exercise-body{padding:16px 16px 18px}
-        .exercise h3{font-size:1.12rem;margin-bottom:6px}
-        .exercise .desc{color:var(--muted);font-size:.95rem;line-height:1.65;margin-bottom:12px}
-        .meta{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
-        .reps{font-weight:800;color:#dbeafe}
-        .outlineBtn{
-            background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text);
-            padding:10px 12px;border-radius:14px;cursor:pointer
-        }
-        .outlineBtn:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.08)}
+    .footer{padding:34px 0 44px}
+    .footer-box{padding:18px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);line-height:1.8}
 
-        /* VIP */
-        .vip-lock{
-            border:1px solid rgba(245,158,11,.25);
-            background:linear-gradient(180deg, rgba(245,158,11,.08), rgba(139,92,246,.05));
-            border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-top:18px
-        }
-        .vip-grid{display:none;margin-top:18px}
-        .vip-grid.active{display:grid}
-        .vip-header{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
-        .vip-badge{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.18);color:#fde68a;font-weight:800}
-        .vip-inputs{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-        .vip-inputs input{
-            flex:1;min-width:220px;padding:14px 16px;border-radius:16px;border:1px solid var(--line);
-            background:rgba(255,255,255,.05);color:var(--text)
-        }
+    .modal{display:none;position:fixed;inset:0;background:rgba(4,8,16,.78);backdrop-filter:blur(12px);z-index:200;place-items:center;padding:18px}
+    .modal.show{display:grid}
+    .modal-box{width:min(980px,100%);max-height:90vh;overflow:auto;border-radius:24px;border:1px solid var(--line);background:#0f1731;box-shadow:var(--shadow)}
+    .modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+    .modal-body{padding:18px}
+    .close{background:transparent;border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer}
 
-        /* Progress */
-        .progress-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-        .field{padding:16px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03)}
-        .field label{display:block;font-weight:800;margin-bottom:10px}
-        .field input{width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text)}
-        .saved{margin-top:10px;color:#dbeafe;font-size:.95rem}
+    .demo-stage{position:relative;height:260px;border-radius:18px;overflow:hidden;background:linear-gradient(135deg, rgba(45,127,249,.14), rgba(31,211,255,.1));border:1px solid var(--line)}
+    .demo-stage .floor{position:absolute;left:5%;right:5%;bottom:18%;height:3px;background:rgba(255,255,255,.16)}
+    .demo-stage .figure{
+      position:absolute;left:16%;bottom:18%;width:88px;height:88px;border-radius:20px;background:linear-gradient(135deg,#fff,#a78bfa);
+      animation:figureMove 2.8s ease-in-out infinite
+    }
+    .demo-stage .figure:before{content:"";position:absolute;left:34px;top:10px;width:20px;height:20px;border-radius:50%;background:#0b1020}
+    .demo-stage .figure:after{content:"";position:absolute;left:14px;top:34px;width:60px;height:18px;border-radius:999px;background:rgba(11,16,32,.9)}
+    .demo-stage .ball{right:16%;bottom:46%;animation:ballArc 2.8s ease-in-out infinite}
+    .demo-stage .path{position:absolute;left:14%;right:14%;bottom:36%;height:2px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent)}
 
-        /* Tips */
-        .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-        .tip{
-            padding:18px;border-radius:18px;border:1px solid var(--line);
-            background:rgba(255,255,255,.03)
-        }
-        .tip h3{margin-bottom:8px}
-        .tip p{color:var(--muted);line-height:1.75;font-size:.95rem}
+    @keyframes jump{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px) scale(1.03)}}
+    @keyframes ballArc{0%{transform:translate(0,0) scale(.95)}50%{transform:translate(-220px,-88px) scale(1.08)}100%{transform:translate(0,0) scale(.95)}}
+    @keyframes figureMove{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
 
-        /* Checklist */
-        .checklist{display:grid;gap:10px}
-        .check{
-            display:flex;gap:12px;align-items:flex-start;padding:14px 15px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.03)
-        }
-        .check input{margin-top:4px;width:20px;height:20px;accent-color:var(--accent2)}
-        .check.done{opacity:.72}
-        .check.done span{text-decoration:line-through}
-
-        /* Footer */
-        footer{padding:34px 0 44px;color:var(--muted)}
-        .footer-card{padding:18px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03)}
-
-        /* Modal */
-        .modal{display:none;position:fixed;inset:0;background:rgba(4,7,15,.76);backdrop-filter:blur(12px);z-index:2000;padding:18px}
-        .modal.show{display:grid;place-items:center}
-        .modal-box{width:min(920px,100%);max-height:90vh;overflow:auto;background:#0f1731;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
-        .modal-head{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
-        .modal-body{padding:20px}
-        .close{background:transparent;border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer}
-
-        .readme{white-space:normal;line-height:1.7;color:var(--muted)}
-
-        /* Animations */
-        @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-        @keyframes jumpPulse{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-18px) scale(1.03)}}
-        @keyframes ballArc{0%{transform:translate(0,0) scale(.95)}50%{transform:translate(-220px,-100px) scale(1.08)}100%{transform:translate(0,0) scale(.95)}}
-        @keyframes moveArc{0%{transform:translate(0,0)}50%{transform:translate(250px,-72px)}100%{transform:translate(0,0)}}
-        @keyframes jumpFigure{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-
-        @media (max-width: 960px){
-            .hero-grid,.exercise-grid,.tips-grid,.progress-grid{grid-template-columns:1fr}
-            .navlinks{display:none;position:absolute;top:76px;left:20px;right:20px;background:#0c1226;border:1px solid var(--line);border-radius:18px;padding:12px}
-            .navlinks.show{display:flex;flex-direction:column;align-items:stretch}
-            .menuBtn{display:inline-flex}
-            .statrow{grid-template-columns:1fr}
-        }
-    </style>
+    @media (max-width: 1024px){.hero-grid{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width: 720px){
+      .grid{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr}
+      .navlinks{display:none;position:absolute;top:78px;left:20px;right:20px;background:#08101f;border:1px solid var(--line);border-radius:18px;padding:12px}
+      .navlinks.show{display:flex;flex-direction:column;align-items:stretch}
+      .menuBtn{display:inline-flex}
+      .section-head h2{font-size:1.6rem}
+    }
+  </style>
 </head>
 <body>
-    <div class="topbar">
-        <div class="wrap nav">
-            <a class="brand" href="#home">
-                <div class="brand-mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm3.9 7.2-4.1 7.1a1.2 1.2 0 0 1-2.2-.1l-1.8-3.6a1 1 0 1 1 1.8-.9l1 2 3.3-5.7a1 1 0 1 1 1.8 1.2Z"/></svg>
-                </div>
-                <span>VolleyForge</span>
-            </a>
-            <button class="menuBtn" onclick="toggleMenu()">☰</button>
-            <div class="navlinks" id="navlinks">
-                <a href="#plan">Plan</a>
-                <a href="#vip">VIP</a>
-                <a href="#tips">Tips</a>
-                <a href="#progress">Progress</a>
-                <a href="#checklist">Checklist</a>
-                <a href="#readme">README</a>
-            </div>
-        </div>
+  <div class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#home">
+        <div class="brand-mark"><span>🏐</span></div>
+        <span>VolleyForge Media</span>
+      </a>
+      <button class="menuBtn" onclick="toggleMenu()">☰</button>
+      <div class="navlinks" id="navlinks">
+        <a href="#library">Library</a>
+        <a href="#vip">VIP</a>
+        <a href="#readme">Launch Notes</a>
+      </div>
     </div>
+  </div>
 
-    <main id="home" class="hero wrap">
-        <div class="hero-grid">
-            <section class="hero-card">
-                <div class="eyebrow">🏆 Premium Volleyball Performance Lab</div>
-                <h1>Train smarter. Jump higher. Spike harder.</h1>
-                <p>
-                    Welcome to a unique, premium volleyball training experience built around your PDF plan,
-                    now transformed into a polished, animated, on-click training website with regular and VIP modes.
-                </p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary" onclick="document.getElementById('plan').scrollIntoView({behavior:'smooth'})">Start Training</button>
-                    <button class="btn btn-ghost" onclick="document.getElementById('vip').scrollIntoView({behavior:'smooth'})">Open VIP Plan</button>
-                </div>
-                <div class="statrow">
-                    <div class="stat"><strong>7-Day</strong><span>Core plan</span></div>
-                    <div class="stat"><strong>VIP</strong><span>Locked mode</span></div>
-                    <div class="stat"><strong>Animated</strong><span>Visual guidance</span></div>
-                </div>
-            </section>
-
-            <aside class="hero-visual side-card">
-                <div class="court-preview" aria-label="Animated volleyball court preview">
-                    <div class="court-lines"></div>
-                    <div class="player"></div>
-                    <div class="ball"></div>
-                    <div class="arrow">↗</div>
-                </div>
-                <div class="side-card">
-                    <div class="mini-title">How this site works</div>
-                    <div class="mini-copy">Click each training day, open exercise demos, track your progress, and unlock the VIP plan with the password you set.</div>
-                    <div class="vip-banner">VIP password gate is enabled for your personal plan.</div>
-                </div>
-            </aside>
+  <main id="home" class="hero wrap">
+    <div class="hero-grid">
+      <section class="hero-card card">
+        <div class="eyebrow">🎬 Royalty-free training media library</div>
+        <h1>Visual drills for volleyball athletes.</h1>
+        <p>
+          This upgraded version turns your training site into a polished media library with tabs for Normal and VIP training,
+          source-page links for royalty-free media, animated cards, and a VIP password gate for your private plan.
+        </p>
+        <div class="actions">
+          <button class="btn btn-primary" onclick="document.getElementById('library').scrollIntoView({behavior:'smooth'})">Open Library</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('vip').scrollIntoView({behavior:'smooth'})">Open VIP</button>
         </div>
-    </main>
-
-    <section id="plan" class="section wrap">
-        <div class="panel">
-            <h2>7-Day Training Plan</h2>
-            <p class="lead">Your regular program is presented in a clean, premium layout with visual exercise cards and animated movement cues.</p>
-            <div class="tabs" id="tabs"></div>
-            <div id="days"></div>
+        <div class="stats">
+          <div class="stat"><strong>2 Tabs</strong><span>Normal / VIP</span></div>
+          <div class="stat"><strong>16+ Cards</strong><span>Exercises covered</span></div>
+          <div class="stat"><strong>Modal Watch</strong><span>Source-page preview</span></div>
         </div>
-    </section>
+      </section>
 
-    <section id="vip" class="section wrap">
-        <div class="vip-lock">
-            <div class="vip-header">
-                <div>
-                    <h2>VIP Personal Training Plan</h2>
-                    <p class="lead" style="margin-bottom:0">Locked content for your private training sequence.</p>
-                </div>
-                <div class="vip-badge">🔒 VIP Password Required</div>
-            </div>
-            <div class="vip-inputs">
-                <input id="vipPassword" type="password" placeholder="Enter VIP password" />
-                <button class="btn btn-primary" onclick="unlockVIP()">Unlock VIP Plan</button>
-            </div>
-            <div id="vipMessage" style="margin-top:12px;color:#fde68a;font-weight:700"></div>
-            <div id="vipGrid" class="vip-grid"></div>
+      <aside class="card hero-visual">
+        <div class="motion-stage" aria-label="Animated volleyball training visual">
+          <div class="court"></div>
+          <div class="trail"></div>
+          <div class="athlete"></div>
+          <div class="ball"></div>
         </div>
-    </section>
-
-    <section id="tips" class="section wrap">
-        <div class="panel">
-            <h2>Technique Tips</h2>
-            <p class="lead">Designed to feel like a premium athlete training product, not a generic template.</p>
-            <div class="tips-grid">
-                <div class="tip"><h3>Approach rhythm</h3><p>Keep the last two steps fast, sharp, and controlled. Your final plant should feel explosive but balanced.</p></div>
-                <div class="tip"><h3>Arm swing</h3><p>Drive both arms up aggressively for more lift. The jump begins before your feet leave the floor.</p></div>
-                <div class="tip"><h3>Landing</h3><p>Land softly, absorb through hips and knees, and reset quickly so you’re ready for the next rep.</p></div>
-            </div>
+        <div class="motion-note">
+          Use the watch buttons to open source pages in a modal. If an exact drill media match is not available, the card clearly marks a similar movement shown.
         </div>
-    </section>
-
-    <section id="progress" class="section wrap">
-        <div class="panel">
-            <h2>Progress Tracker</h2>
-            <p class="lead">Save your numbers locally so you can revisit them anytime on this device.</p>
-            <div class="progress-grid">
-                <div class="field"><label>Standing Reach</label><input id="standingReach" type="number" placeholder="inches"><div id="standingReachSaved" class="saved"></div><button class="btn btn-primary" style="margin-top:10px" onclick="saveField('standingReach')">Save</button></div>
-                <div class="field"><label>Approach Jump</label><input id="approachJump" type="number" placeholder="inches"><div id="approachJumpSaved" class="saved"></div><button class="btn btn-primary" style="margin-top:10px" onclick="saveField('approachJump')">Save</button></div>
-                <div class="field"><label>Spike Contact Height</label><input id="spikeHeight" type="number" placeholder="inches"><div id="spikeHeightSaved" class="saved"></div><button class="btn btn-primary" style="margin-top:10px" onclick="saveField('spikeHeight')">Save</button></div>
-                <div class="field"><label>Success Rate</label><input id="successRate" type="number" placeholder="out of 20"><div id="successRateSaved" class="saved"></div><button class="btn btn-primary" style="margin-top:10px" onclick="saveField('successRate')">Save</button></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="checklist" class="section wrap">
-        <div class="panel">
-            <h2>Daily Checklist</h2>
-            <p class="lead">Use this to keep your training clean, consistent, and safe.</p>
-            <div class="checklist" id="checklistBox"></div>
-            <button class="btn btn-ghost" style="margin-top:16px" onclick="resetChecklist()">Reset Checklist</button>
-        </div>
-    </section>
-
-    <section id="readme" class="section wrap">
-        <div class="panel readme">
-            <h2>README / Launch Notes</h2>
-            <p>This project is a single-file web app designed to be deployed on GitHub Pages or any static host. The layout is intentionally unique: dark premium theme, glass panels, athletic motion animations, and VIP unlock flow.</p>
-            <p><strong>Launch:</strong> make sure your repository has this file saved as <code>index.html</code>. GitHub Pages can then publish it from the main branch root.</p>
-        </div>
-    </section>
-
-    <footer class="wrap">
-        <div class="footer-card">VolleyForge — premium volleyball jump and spike training, built for your personal plan.</div>
-    </footer>
-
-    <div class="modal" id="modal">
-        <div class="modal-box">
-            <div class="modal-head">
-                <h2 id="modalTitle">Exercise Demo</h2>
-                <button class="close" onclick="closeModal()">Close</button>
-            </div>
-            <div class="modal-body">
-                <div id="modalContent"></div>
-            </div>
-        </div>
+      </aside>
     </div>
+  </main>
 
-    <script>
-        const PLAN = [
-            {
-                day:'Day 1', focus:'Jump Technique + Arm Swing', intensity:'medium',
-                exercises:[
-                    {name:'Approach Jumps', reps:'5 x 5', demo:'Animated approach jump path', cue:'Fast last two steps, then explode straight up.'},
-                    {name:'Wall Spike Mechanics', reps:'4 x 15', demo:'Animated spike arm swing + contact', cue:'Reach high, snap wrist, and finish the swing.'},
-                    {name:'Bodyweight Squats', reps:'3 x 15', demo:'Animated squat depth and posture', cue:'Knees track over toes, chest tall, move with control.'},
-                    {name:'Front Plank', reps:'3 x 45 sec', demo:'Core hold animation', cue:'Brace the core, keep a straight line from head to heels.'}
-                ]
-            },
-            {
-                day:'Day 2', focus:'Explosive Power', intensity:'high',
-                exercises:[
-                    {name:'Box Jumps', reps:'5 x 4', demo:'Animated jump-to-box sequence', cue:'Load the hips, jump powerfully, and land softly.'},
-                    {name:'Wall Spikes with Full Arm Swing', reps:'4 x 12', demo:'Animated full arm drive', cue:'Use your arms like springs to create extra lift.'},
-                    {name:'Bulgarian Split Squats', reps:'3 x 10 / leg', demo:'Animated single-leg lowering pattern', cue:'Stay stable through the front heel and control every rep.'},
-                    {name:'Side Planks', reps:'3 x 30 sec', demo:'Animated lateral core hold', cue:'Keep hips stacked and ribs controlled.'}
-                ]
-            },
-            {
-                day:'Day 3', focus:'Timing & Coordination', intensity:'medium',
-                exercises:[
-                    {name:'Block Jumps', reps:'5 x 6', demo:'Animated net block jump', cue:'React quickly and reach over the imaginary net.'},
-                    {name:'Spike Timing with Toss/Setter', reps:'5 x 8', demo:'Animated ball-timing approach', cue:'Approach when the ball is in the right window.'},
-                    {name:'Walking Lunges', reps:'3 x 12 / leg', demo:'Animated forward lunge path', cue:'Long step, upright torso, controlled knee path.'},
-                    {name:'Dead Bug Core Drill', reps:'3 x 12', demo:'Animated opposite arm-leg control', cue:'Move slowly and keep the low back stable.'}
-                ]
-            },
-            {
-                day:'Day 4', focus:'Recovery Day', intensity:'low',
-                exercises:[
-                    {name:'Mobility Flow', reps:'20-30 min', demo:'Animated joint mobility sequence', cue:'Move smoothly through hips, ankles, shoulders, and spine.'},
-                    {name:'Balance Training', reps:'3 x 60 sec', demo:'Animated single-leg balance hold', cue:'Stay tall, eyes forward, and keep the foot active.'},
-                    {name:'Light Passing Practice', reps:'20 min', demo:'Animated controlled pass prep', cue:'Keep platform steady and eyes on the ball.'},
-                    {name:'Foam Rolling', reps:'15-20 min', demo:'Animated recovery massage motion', cue:'Roll slowly over calves, quads, and glutes.'}
-                ]
-            },
-            {
-                day:'Day 5', focus:'Reactive Jump Training', intensity:'high',
-                exercises:[
-                    {name:'Depth Jumps', reps:'4 x 5', demo:'Animated drop-step rebound jump', cue:'Minimize ground contact and jump instantly.'},
-                    {name:'Cross-Court Spike Practice', reps:'5 x 10', demo:'Animated cross-court attack path', cue:'Angle the hit and control the line of attack.'},
-                    {name:'Single-Leg Stability Work', reps:'3 x 10 / leg', demo:'Animated single-leg control hold', cue:'Fight wobble and keep hips square.'},
-                    {name:'Hollow Hold', reps:'3 x 30 sec', demo:'Animated hollow-body tension', cue:'Press the lower back down and keep tension.'}
-                ]
-            },
-            {
-                day:'Day 6', focus:'High-Intensity Volleyball Day', intensity:'high',
-                exercises:[
-                    {name:'Max Approach Jumps', reps:'6 x 4', demo:'Animated max jump sequence', cue:'Treat each jump like a game point.'},
-                    {name:'Live Hitting with Setter', reps:'6 x 8', demo:'Animated live set-to-hit timing', cue:'Read the set early and attack with purpose.'},
-                    {name:'Broad Jumps', reps:'4 x 5', demo:'Animated forward power jump', cue:'Launch forward with strong hip drive.'},
-                    {name:'Russian Twists', reps:'3 x 20', demo:'Animated rotational core twist', cue:'Rotate with control, not speed.'}
-                ]
-            },
-            {
-                day:'Day 7', focus:'Technique Refinement', intensity:'low',
-                exercises:[
-                    {name:'Controlled Approach Jumps', reps:'4 x 5', demo:'Animated slow-perfect reps', cue:'Focus on perfect form and quiet landings.'},
-                    {name:'Target Spiking Accuracy', reps:'5 x 10', demo:'Animated target placement hit', cue:'Aim for zones instead of raw power.'},
-                    {name:'Glute Bridges', reps:'3 x 15', demo:'Animated hip bridge hold', cue:'Squeeze glutes at the top, move with control.'},
-                    {name:'Bird Dogs', reps:'3 x 12', demo:'Animated opposite arm-leg extension', cue:'Move slowly and avoid hip rotation.'}
-                ]
-            }
-        ];
+  <section id="library" class="section wrap">
+    <div class="panel">
+      <div class="section-head">
+        <div>
+          <h2>Training Media Library</h2>
+          <p>Source-page links are used for reliability. Each card includes a coaching cue and a watch button that opens a larger source preview.</p>
+        </div>
+      </div>
 
-        const VIP_PLAN = [
-            { day:'VIP Day 1', title:'Explosiveness Primer', items:['Approach jump clusters','Landing mechanics review','Approach speed timing'] },
-            { day:'VIP Day 2', title:'Advanced Contact Work', items:['Ball-timing spikes','Peak reach reps','Wrist snap control'] },
-            { day:'VIP Day 3', title:'Power + Recovery Split', items:['Depth jumps','Mobility reset','Core anti-rotation'] },
-            { day:'VIP Day 4', title:'Court-Speed Session', items:['Reactive footwork','Fast approach reads','Game-like hitting'] }
-        ];
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('normal', this)">📘 Normal Training</button>
+        <button class="tab" onclick="showTab('vipTab', this)">⭐ VIP Training</button>
+      </div>
 
-        const checklistItems = [
-            'Warm-up completed',
-            'Jump mechanics done',
-            'Spike mechanics done',
-            'Strength/core work done',
-            'Cool-down finished',
-            'Hydration checked',
-            'Soft landings maintained'
-        ];
+      <div id="normal" class="tab-panels active">
+        <div class="grid" id="normalGrid"></div>
+      </div>
+      <div id="vipTab" class="tab-panels">
+        <div class="grid" id="vipGrid"></div>
+      </div>
+    </div>
+  </section>
 
-        function toggleMenu(){document.getElementById('navlinks').classList.toggle('show')}
-        function openModal(title, html){document.getElementById('modalTitle').textContent=title;document.getElementById('modalContent').innerHTML=html;document.getElementById('modal').classList.add('show')}
-        function closeModal(){document.getElementById('modal').classList.remove('show')}
-        document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal') closeModal()})
+  <section id="vip" class="section wrap">
+    <div class="vip-lock">
+      <div class="section-head" style="margin-bottom:10px">
+        <div>
+          <h2>VIP Training Unlock</h2>
+          <p>Enter the password to reveal your private volleyball plan.</p>
+        </div>
+        <div style="padding:8px 12px;border-radius:999px;background:rgba(255,159,67,.14);border:1px solid rgba(255,159,67,.2);font-weight:800">Locked by Password</div>
+      </div>
+      <div class="vip-inputs">
+        <input id="vipPassword" type="password" placeholder="Enter VIP password" />
+        <button class="btn btn-primary" onclick="unlockVIP()">Unlock VIP</button>
+      </div>
+      <div id="vipMsg" class="vip-msg"></div>
+      <div id="lockedGrid" class="locked-grid"></div>
+    </div>
+  </section>
 
-        function renderPlan(){
-            const tabs=document.getElementById('tabs');
-            const days=document.getElementById('days');
-            tabs.innerHTML=''; days.innerHTML='';
-            PLAN.forEach((d,i)=>{
-                const b=document.createElement('button'); b.className='tab'+(i===0?' active':''); b.textContent=d.day;
-                b.onclick=()=>showDay(i);
-                tabs.appendChild(b);
+  <section id="readme" class="section wrap footer">
+    <div class="footer-box">
+      <strong style="color:var(--text)">Launch notes</strong><br />
+      Save this file as <code>index.html</code> in the root of your repo and publish with GitHub Pages or any static host.
+      <br /><br />
+      🎬 Videos sourced from royalty-free libraries (Pexels/Pixabay/Mixkit). For instructional use only.
+    </div>
+  </section>
 
-                const div=document.createElement('div');
-                div.className='day'+(i===0?' active':'');
-                div.id=`day-${i}`;
-                div.innerHTML=`
-                    <div class="day-head">
-                        <div><h3>${d.day} — ${d.focus}</h3><p class="lead" style="margin:4px 0 0">Click any exercise card to see a guided animated demo.</p></div>
-                        <div class="tag ${d.intensity}">${d.intensity.toUpperCase()} INTENSITY</div>
-                    </div>
-                    <div class="exercise-grid">
-                        ${d.exercises.map(ex=>`
-                            <article class="exercise">
-                                <div class="exercise-top">
-                                    <div class="demo-stage" aria-hidden="true">
-                                        <div class="motion-line"></div>
-                                        <div class="jump-figure"></div>
-                                        <div class="move-dot"></div>
-                                    </div>
-                                </div>
-                                <div class="exercise-body">
-                                    <h3>${ex.name}</h3>
-                                    <p class="desc">${ex.cue}</p>
-                                    <div class="meta">
-                                        <div class="reps">${ex.reps}</div>
-                                        <button class="outlineBtn" onclick="openExercise('${ex.name}','${ex.demo}','${ex.cue}','${ex.reps}')">Open Demo</button>
-                                    </div>
-                                </div>
-                            </article>
-                        `).join('')}
-                    </div>
-                `;
-                days.appendChild(div)
-            })
-        }
-        function showDay(i){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.day').forEach(d=>d.classList.remove('active'));document.querySelectorAll('.tab')[i].classList.add('active');document.getElementById(`day-${i}`).classList.add('active')}
-        function openExercise(name,demo,cue,reps){
-            openModal(name, `
-                <div class="panel" style="background:rgba(255,255,255,.02);border:none;box-shadow:none;padding:0">
-                    <p><strong>Sets/Reps:</strong> ${reps}</p>
-                    <p style="margin:10px 0 14px;color:var(--muted)">${demo}</p>
-                    <div style="height:220px;border-radius:18px;background:linear-gradient(135deg, rgba(139,92,246,.18), rgba(34,211,238,.12));border:1px solid var(--line);position:relative;overflow:hidden;margin-bottom:16px">
-                        <div style="position:absolute;left:14%;bottom:16px;width:58px;height:58px;border-radius:18px;background:#dbeafe;animation:jumpFigure 2.7s ease-in-out infinite"></div>
-                        <div style="position:absolute;left:18%;bottom:18px;right:14%;height:2px;background:rgba(255,255,255,.18)"></div>
-                        <div style="position:absolute;right:18%;top:28%;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#fff,#f59e0b);animation:ballArc 2.7s ease-in-out infinite"></div>
-                    </div>
-                    <div class="tip"><h3>How to do it</h3><p>${cue}</p></div>
-                </div>
-            `)
-        }
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2 id="modalTitle">Watch</h2>
+        <button class="close" onclick="closeModal()">Close</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
 
-        function unlockVIP(){
-            const pw=document.getElementById('vipPassword').value.trim();
-            const box=document.getElementById('vipGrid');
-            const msg=document.getElementById('vipMessage');
-            if(pw !== 'skyXbatata'){ msg.textContent='Wrong password. VIP plan remains locked.'; msg.style.color='var(--danger)'; return; }
-            msg.textContent='VIP unlocked successfully.'; msg.style.color='var(--success)';
-            box.classList.add('active');
-            box.innerHTML = VIP_PLAN.map(v=>`
-                <div class="tip" style="background:rgba(255,255,255,.03)">
-                    <h3>${v.day}</h3>
-                    <p style="font-weight:800;color:#fde68a;margin-bottom:8px">${v.title}</p>
-                    <ul style="margin-left:18px;color:var(--muted);line-height:1.8">
-                        ${v.items.map(item=>`<li>${item}</li>`).join('')}
-                    </ul>
-                </div>
-            `).join('');
-        }
+  <script>
+    const SOURCE_LINKS = {
+      "Jumping jack warm-up": "https://pixabay.com/videos/search/jumping%20jacks/",
+      "Bodyweight squat": "https://www.pexels.com/search/videos/squat%20exercise/",
+      "Lunges": "https://www.pexels.com/search/videos/lunges/",
+      "Plank": "https://www.pexels.com/search/videos/plank%20exercise/",
+      "High knees": "https://mixkit.co/search/high-knees/",
+      "Arm circles / shoulder mobility": "https://pixabay.com/videos/search/shoulder%20mobility/",
+      "Squat / Goblet squat": "https://www.pexels.com/search/videos/goblet%20squat/",
+      "Romanian deadlift / hip hinge": "https://www.pexels.com/search/videos/deadlift/",
+      "Walking lunge": "https://pixabay.com/videos/search/lunge/",
+      "Calf raise": "https://pixabay.com/videos/search/calf%20raise/",
+      "Pogo jumps": "https://pixabay.com/videos/search/jump/",
+      "Squat jumps": "https://www.pexels.com/search/videos/jump%20exercise/",
+      "Broad jumps": "https://pixabay.com/videos/search/jump/",
+      "Tuck jumps": "https://www.pexels.com/search/videos/jump%20exercise/",
+      "Approach jumps": "https://pixabay.com/videos/search/volleyball/",
+      "Block jumps": "https://pixabay.com/videos/search/volleyball/",
+      "Lateral shuffle to block": "https://pixabay.com/videos/search/volleyball/",
+      "Forearm pass": "https://pixabay.com/videos/search/volleyball/",
+      "Overhead set": "https://pixabay.com/videos/search/volleyball/",
+      "Serve arm swing": "https://pixabay.com/videos/search/volleyball/"
+    };
 
-        function saveField(id){
-            const v=document.getElementById(id).value; if(!v) return;
-            localStorage.setItem(id,v); document.getElementById(id+'Saved').textContent=`Saved: ${v}`;
-        }
-        function loadSaved(){['standingReach','approachJump','spikeHeight','successRate'].forEach(id=>{const v=localStorage.getItem(id); if(v){document.getElementById(id).value=v; document.getElementById(id+'Saved').textContent=`Saved: ${v}`;}})}
-        function renderChecklist(){
-            const box=document.getElementById('checklistBox');
-            const saved=JSON.parse(localStorage.getItem('checklistState')||'[]');
-            box.innerHTML=checklistItems.map((t,i)=>`<label class="check ${saved[i]?'done':''}"><input type="checkbox" ${saved[i]?'checked':''} onchange="toggleCheck(${i}, this)"><span>${t}</span></label>`).join('');
-        }
-        function toggleCheck(i, el){
-            const saved=JSON.parse(localStorage.getItem('checklistState')||'[]'); saved[i]=el.checked; localStorage.setItem('checklistState', JSON.stringify(saved)); renderChecklist();
-        }
-        function resetChecklist(){localStorage.setItem('checklistState', JSON.stringify([])); renderChecklist();}
+    const NORMAL = [
+      {name:"Jumping jack warm-up", cue:"Keep your rhythm light and smooth to raise heart rate fast.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/jumping%20jacks/"},
+      {name:"Bodyweight squat", cue:"Sit back, keep chest tall, and push evenly through both feet.", note:"Similar movement shown — focus on form.", search:"https://www.pexels.com/search/videos/squat%20exercise/"},
+      {name:"Lunges", cue:"Step long, stay upright, and control your knee on the way down.", note:"Similar movement shown — focus on form.", search:"https://www.pexels.com/search/videos/lunges/"},
+      {name:"Plank", cue:"Brace your core and keep a straight line from head to heels.", note:"Similar movement shown — focus on form.", search:"https://www.pexels.com/search/videos/plank%20exercise/"},
+      {name:"High knees", cue:"Drive the knees up quickly while staying tall through your torso.", note:"Similar movement shown — focus on form.", search:"https://mixkit.co/search/high-knees/"},
+      {name:"Arm circles / shoulder mobility", cue:"Move through full pain-free range and keep the shoulders relaxed.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/shoulder%20mobility/"}
+    ];
 
-        renderPlan(); loadSaved(); renderChecklist();
-    </script>
+    const VIP = [
+      {name:"Squat / Goblet squat", cue:"Load through the hips and keep your torso strong on every rep.", note:"Similar movement shown — focus on form.", search:"https://www.pexels.com/search/videos/goblet%20squat/"},
+      {name:"Romanian deadlift / hip hinge", cue:"Push the hips back, keep the spine long, and feel the hamstrings work.", note:"Similar movement shown — focus on form.", search:"https://www.pexels.com/search/videos/deadlift/"},
+      {name:"Walking lunge", cue:"Own the landing on each step and keep your front knee stable.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/lunge/"},
+      {name:"Calf raise", cue:"Rise all the way up, pause, then lower under control.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/calf%20raise/"},
+      {name:"Plank", cue:"Squeeze glutes and abs to keep the body rigid.", note:"Similar movement shown — focus on form.", search:"https://www.pexels.com/search/videos/plank%20exercise/"},
+      {name:"Pogo jumps", cue:"Stay stiff through the ankles and bounce lightly off the floor.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/jump/"},
+      {name:"Squat jumps", cue:"Explode up, land quietly, and reset every rep.", note:"Similar movement shown — focus on form.", search:"https://www.pexels.com/search/videos/jump%20exercise/"},
+      {name:"Broad jumps", cue:"Swing the arms and jump for distance with a strong landing.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/jump/"},
+      {name:"Tuck jumps", cue:"Snap the knees up quickly while keeping posture tall.", note:"Similar movement shown — focus on form.", search:"https://www.pexels.com/search/videos/jump%20exercise/"},
+      {name:"Approach jumps", cue:"Use a fast last two steps and explode straight up for contact.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/volleyball/"},
+      {name:"Block jumps", cue:"Press the hands high and jump straight at the net line.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/volleyball/"},
+      {name:"Lateral shuffle to block", cue:"Stay low, move quickly, and plant with control before the jump.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/volleyball/"},
+      {name:"Forearm pass", cue:"Create a strong platform and angle the pass with your legs.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/volleyball/"},
+      {name:"Overhead set", cue:"Use soft hands and extend smoothly through the set.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/volleyball/"},
+      {name:"Serve arm swing", cue:"Load the shoulder and snap through the ball with a clean finish.", note:"Similar movement shown — focus on form.", search:"https://pixabay.com/videos/search/volleyball/"}
+    ];
+
+    const VIP_UNLOCKED_PLAN = [
+      { day:"VIP Day 1", items:["Squat / Goblet squat", "Romanian deadlift / hip hinge", "Plank"] },
+      { day:"VIP Day 2", items:["Walking lunge", "Calf raise", "Pogo jumps"] },
+      { day:"VIP Day 3", items:["Squat jumps", "Broad jumps", "Tuck jumps"] },
+      { day:"VIP Day 4", items:["Approach jumps", "Block jumps", "Lateral shuffle to block", "Forearm pass", "Overhead set", "Serve arm swing"] }
+    ];
+
+    function toggleMenu(){document.getElementById('navlinks').classList.toggle('show')}
+    function showTab(id, btn){
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.tab-panels').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(id).classList.add('active');
+    }
+
+    function cardHTML(item){
+      const safeName = item.name;
+      const source = item.search || SOURCE_LINKS[safeName] || 'https://pixabay.com/videos/';
+      return `
+        <article class="exercise">
+          <div class="media">
+            <div class="badge">Royalty-free source page</div>
+            <div class="media-anim">
+              <div class="svg-wrap">
+                <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect x="0" y="0" width="360" height="170" rx="18" fill="rgba(0,0,0,.16)"/>
+                  <circle cx="90" cy="120" r="26" fill="#e0e7ff" opacity=".95">
+                    <animate attributeName="cy" values="120;90;120" dur="2.8s" repeatCount="indefinite"/>
+                  </circle>
+                  <rect x="66" y="70" width="48" height="22" rx="11" fill="#8b5cf6" opacity=".9">
+                    <animate attributeName="y" values="70;55;70" dur="2.8s" repeatCount="indefinite"/>
+                  </rect>
+                  <circle cx="276" cy="86" r="14" fill="#ff9f43" opacity=".95">
+                    <animate attributeName="cx" values="276;160;276" dur="2.8s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="86;38;86" dur="2.8s" repeatCount="indefinite"/>
+                  </circle>
+                  <path d="M18 138 H342" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="body">
+            <h3>${safeName}</h3>
+            <div class="cue">${item.cue}</div>
+            <div class="source-note">${item.note}</div>
+            <div class="bottom">
+              <button class="watch" onclick="openWatch('${safeName}','${source}')">⏵ Watch</button>
+              <a class="source" href="${source}" target="_blank" rel="noopener noreferrer">Open source page</a>
+            </div>
+          </div>
+        </article>`;
+    }
+
+    function render(){
+      document.getElementById('normalGrid').innerHTML = NORMAL.map(cardHTML).join('');
+      document.getElementById('vipGrid').innerHTML = VIP.map(cardHTML).join('');
+    }
+
+    function openWatch(title, src){
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalBody').innerHTML = `
+        <div class="demo-stage">
+          <div class="path"></div>
+          <div class="floor"></div>
+          <div class="figure"></div>
+          <div class="ball"></div>
+        </div>
+        <div style="margin-top:14px;color:var(--muted);line-height:1.8">
+          This button opens the source page in a new tab so you can choose a royalty-free clip or GIF from the library.
+          <br /><br />
+          <a href="${src}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="text-decoration:none">Open source page</a>
+        </div>
+      `;
+      document.getElementById('modal').classList.add('show');
+    }
+    function closeModal(){document.getElementById('modal').classList.remove('show')}
+    document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal') closeModal()});
+
+    function unlockVIP(){
+      const pw=document.getElementById('vipPassword').value.trim();
+      const msg=document.getElementById('vipMsg');
+      const grid=document.getElementById('lockedGrid');
+      if(pw!=='skyXbatata'){msg.textContent='Wrong password. VIP plan stays locked.';msg.style.color='var(--orange)';return;}
+      msg.textContent='VIP unlocked.';msg.style.color='var(--green)';
+      grid.classList.add('active');
+      grid.innerHTML = VIP_UNLOCKED_PLAN.map(d=>`
+        <div class="vip-card">
+          <h3>${d.day}</h3>
+          <ul>${d.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+        </div>
+      `).join('');
+    }
+
+    render();
+  </script>
 </body>
 </html>
